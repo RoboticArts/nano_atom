@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <arg name="map_frame" default="$(arg prefix)map"                                    />
+    <arg name="map_file"  default="testzone_map/testzone_map.yaml"                      />
+    <arg name="map_path"  default="$(find nano_atom_localization)/maps/$(arg map_file)" />
+
+    <node pkg="map_server" type="map_server" name="map_server_node"  output="screen" args="$(arg map_path)" >
+          <param name="frame_id" value="$(arg map_frame)"/> 
+    </node>
+
+
+</launch>

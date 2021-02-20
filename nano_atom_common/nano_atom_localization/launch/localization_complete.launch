@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- - - - - - - - - - - -  NANO ATOM LOCALIZATION - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"                        />
+    <arg name="prefix"          default="$(arg robot_id)_"             />
+    <arg name="footprint_frame" default="$(arg prefix)base_footprint"  />
+    <arg name="base_frame"      default="$(arg prefix)base_link"       />	
+    <arg name="odom_frame"      default="$(arg prefix)odom"            />
+
+    <!-- Localization options-->
+    <arg name="launch_amcl"    default="true"  />
+    <arg name="launch_mapping" default="false" />
+    
+    <!-- Localization inputs -->
+    <arg name="scan_topic"     default="front_laser/scan"               />
+    <arg name="map_file"       default="testzone_map/testzone_map.yaml" />
+
+    <!-- Initial localization -->
+    <arg name="initial_pose_x"  default="0.0" />
+    <arg name="initial_pose_y"  default="0.0" />
+    <arg name="initial_pose_z"  default="0.0" />
+    <arg name="initial_pose_a"  default="0.0" />
+
+
+    <group ns="$(arg robot_id)">
+
+        <!-- Start amcl -->
+        <group if="$(arg launch_amcl)">
+
+            <!-- Start map server -->
+            <include file="$(find nano_atom_localization)/launch/map_server.launch">
+
+                <arg name="robot_id"    value="$(arg robot_id)" />
+                <arg name="prefix"      value="$(arg prefix)"   />
+                <arg name="map_file"    value="$(arg map_file)" />
+            
+            </include>
+
+            <!-- Start amcl algorithm -->
+            <include file="$(find nano_atom_localization)/launch/amcl.launch">
+
+                <arg name="robot_id"        value="$(arg robot_id)"        />
+                <arg name="prefix"          value="$(arg prefix)"          />
+                <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+                <arg name="odom_frame"      value="$(arg odom_frame)"      />
+
+                <arg name="scan_topic" value="$(arg scan_topic)" />
+
+                <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+                <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+                <arg name="initial_pose_z" value="$(arg initial_pose_z)" />
+                <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+
+            </include>
+
+        </group>
+
+
+        <!-- Start gmapping -->
+        <group if="$(arg launch_mapping)">
+   
+            <include file="$(find nano_atom_localization)/launch/gmapping.launch">
+
+                <arg name="robot_id"   value="$(arg robot_id)"   />
+                <arg name="prefix"     value="$(arg prefix)"     />
+                <arg name="base_frame" value="$(arg base_frame)" />	
+                <arg name="odom_frame" value="$(arg odom_frame)" />
+
+                <arg name="scan_topic" value="$(arg scan_topic)" />
+
+            </include>
+
+        </group>
+
+
+    </group>
+
+
+</launch>
