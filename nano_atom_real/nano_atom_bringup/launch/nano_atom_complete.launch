@@ -1,0 +1,108 @@
+<?xml version="1.0"?> 
+<launch>
+
+
+    <!-- - - - - - - - - - -  NANO ATOM BRINGUP REAL - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <!-- Robot position -->
+    <arg name="initial_pose_x" default="0.0"  />
+    <arg name="initial_pose_y" default="0.0"  />
+    <arg name="initial_pose_z" default="0.0"  />
+    <arg name="initial_pose_a" default="0.0"  />
+
+    <!-- Robot RVIZ -->
+    <arg name="launch_rviz" default="true" />
+
+    <!-- Robot accesories -->
+    <arg name="use_front_laser"  default="false" />
+    <arg name="use_front_camera" default="false" />
+    <arg name="use_imu"          default="true" />
+    <arg name="use_leds"         default="false" />
+
+    <!-- Robot localization -->
+    <arg name="launch_localization" default="false" />
+    <arg name="launch_amcl"         default="false" /> 
+    <arg name="launch_mapping"      default="false" />
+    <arg name="map_file"            default="testzone_map/testzone_map.yaml" />
+
+    <!-- Robot teleop -->
+    <arg name="launch_teleop"   default="true"  />
+    <arg name="use_joystick"    default="true"  />
+    <arg name="use_virtual_pad" default="false" />
+    <arg name="use_keyboard"    default="false" />
+
+    <!-- Robot navigation -->
+    <arg name="launch_navigation"   default="false" />
+
+
+    <!-- - - - - - - - - - -  SPAWN NANO ATOM REAL  - - - - - - - - - - -->
+
+    <include file="$(find nano_atom_reality)/launch/nano_atom_spawn_real.launch">
+
+        <!-- Robot properties -->
+        <arg name="robot_id" value="$(arg robot_id)" />
+        <arg name="prefix"   value="$(arg prefix)"   />
+
+        <!-- Robot accesories -->
+        <arg name="use_front_laser"  value="$(arg use_front_laser)"  />
+        <arg name="use_front_camera" value="$(arg use_front_camera)" />
+        <arg name="use_imu"          value="$(arg use_imu)"          />
+        <arg name="use_leds"         value="$(arg use_leds)"         />
+
+        <!-- Robot initial position -->
+        <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+        <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+        <arg name="initial_pose_z" value="$(arg initial_pose_z)" />
+        <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+
+        <!-- Robot localization -->
+        <arg name="launch_localization" value="$(arg launch_localization)" /> 
+        <arg name="launch_amcl"         value="$(arg launch_amcl)"         /> 
+        <arg name="launch_mapping"      value="$(arg launch_mapping)"      /> 
+        <arg name="map_file"            value="$(arg map_file)"            />
+
+        <!-- Robot teleop -->
+        <arg name="launch_teleop"   value="$(arg launch_teleop)"   />	
+        <arg name="use_joystick"    value="$(arg use_joystick)"    />	
+        <arg name="use_virtual_pad" value="$(arg use_virtual_pad)" />	
+        <arg name="use_keyboard"    value="$(arg use_keyboard)"    />
+
+        <!-- Robot navigation -->
+        <arg name="launch_navigation" value="$(arg launch_navigation)" />	
+
+    </include> 
+    
+
+    <!-- - - - - - - - - - -  LOAD HARDWARE - - - - - - - - - - -->
+
+    <include file="$(find nano_atom_reality)/launch/nano_atom_hardware.launch">
+    
+        <!-- Robot accesories -->
+        <arg name="use_front_laser"  value="$(arg use_front_laser)"  />
+        <arg name="use_front_camera" value="$(arg use_front_camera)" />
+        <arg name="use_imu"          value="$(arg use_imu)"          />
+        <arg name="use_leds"         value="$(arg use_leds)"         />	
+
+    </include>
+
+
+    <!-- - - - - - - - - - -  LAUNCH RVIZ - - - - - - - - - - -->
+
+    <group if="$(arg launch_rviz)"> 
+        <arg name="rviz_config" default="$(find nano_atom_reality)/rviz/nano_atom_view.rviz"/> 
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true"/>
+    </group>
+
+ 
+</launch> 
+
+
+
+
+
+
+
