@@ -1,0 +1,163 @@
+<?xml version="1.0"?> 
+<launch>
+ 
+    <!-- - - - - - - - - - - -  NANO ATOM SPAWN REAL - - - - - - - - - - -->
+      
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"                       />
+    <arg name="prefix"          default="$(arg robot_id)_"            />
+    <arg name="footprint_frame" default="$(arg prefix)base_footprint" />	
+    <arg name="base_frame"      default="$(arg prefix)base_link"      />	
+    <arg name="odom_frame"      default="$(arg prefix)odom"           />
+    
+    <!-- Use real robot-->
+    <arg name="use_sim"         default="false"                       />
+
+    <!-- Robot accesories -->
+    <arg name="use_front_laser"  default="true" />
+    <arg name="use_front_camera" default="true" />
+    <arg name="use_imu"          default="true" />
+    <arg name="use_leds"         default="true" />
+
+    <!-- Robot position -->
+    <arg name="initial_pose_x" default="0.0" />
+    <arg name="initial_pose_y" default="0.0" />
+    <arg name="initial_pose_z" default="0.0" />
+    <arg name="initial_pose_a" default="0.0" />
+
+    <!-- Robot localization -->
+    <arg name="launch_localization" default="false" />
+    <arg name="launch_amcl"         default="false" />
+    <arg name="launch_mapping"      default="false" />
+    <arg name="scan_topic"          default="front_laser/scan" />
+    <arg name="map_file"            default="testzone_map/testzone_map.yaml" />
+
+    <!-- Robot teleop -->
+    <arg name="launch_teleop"   default="true"  />
+    <arg name="use_joystick"    default="true"  />
+    <arg name="use_virtual_pad" default="false" />
+    <arg name="use_keyboard"    default="false" />
+
+    <!-- Robot navigation -->
+    <arg name="launch_navigation" default="false" />
+
+
+
+    <!-- - - - - - - - - - - -  NANO ATOM DESCRIPTION - - - - - - - - - - -  -->
+
+    <include file="$(find nano_atom_description)/launch/description_complete.launch">
+
+        <!-- Robot properties -->
+        <arg name="robot_id"        value="$(arg robot_id)"        />
+        <arg name="prefix"          value="$(arg prefix)"          />
+        <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+        <arg name="base_frame"      value="$(arg base_frame)"      />	
+
+        <!-- Robot accesories -->
+        <arg name="use_front_laser"  value="$(arg use_front_laser)"  />
+        <arg name="use_front_camera" value="$(arg use_front_camera)" />
+        <arg name="use_imu"          value="$(arg use_imu)"          />
+        <arg name="use_leds"         value="$(arg use_leds)"         />
+
+        <!-- Robot position -->
+        <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+        <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+        <arg name="initial_pose_z" value="$(arg initial_pose_z)" />
+        <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+
+        <!-- Description options-->
+        <arg name="use_sim" value="$(arg use_sim)"  />
+
+    </include>
+        
+
+    
+    <!-- - - - - - - - - - - -  NANO_ATOM CONTROL - - - - - - - - - - -  -->
+
+    <include file="$(find nano_atom_control)/launch/control_complete.launch">
+
+        <!-- Robot properties -->
+        <arg name="robot_id"        value="$(arg robot_id)"        />
+        <arg name="prefix"          value="$(arg prefix)"          />
+        <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+        <arg name="base_frame"      value="$(arg base_frame)"      />	
+        <arg name="odom_frame"      value="$(arg odom_frame)"      />
+
+        <!-- Control options -->
+        <arg name="use_imu"  value="$(arg use_imu)"  />
+        <arg name="use_sim"  value="$(arg use_sim)"  />
+
+    </include>
+
+
+
+    <!-- - - - - - - - - - - -  NANO_ATOM LOCALIZATION - - - - - - - - - - -  -->
+
+    <include if="$(arg launch_localization)" file="$(find nano_atom_localization)/launch/localization_complete.launch">
+
+        <!-- Robot properties -->
+        <arg name="robot_id"        value="$(arg robot_id)"        />
+        <arg name="prefix"          value="$(arg prefix)"          />
+        <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+        <arg name="base_frame"      value="$(arg base_frame)"      />	
+        <arg name="odom_frame"      value="$(arg odom_frame)"      />
+
+        <!-- Localization options-->
+        <arg name="launch_amcl"    value="$(arg launch_amcl)"    />
+        <arg name="launch_mapping" value="$(arg launch_mapping)" />
+
+        <!-- Localization inputs -->
+        <arg name="map_file"   value="$(arg map_file)"   /> 
+        <arg name="scan_topic" value="$(arg scan_topic)" />
+
+        <!-- Initial localization -->
+        <arg name="initial_pose_x"  value="$(arg initial_pose_x)"  />
+        <arg name="initial_pose_y"  value="$(arg initial_pose_y)"  />
+        <arg name="initial_pose_z"  value="$(arg initial_pose_z)"  />
+        <arg name="initial_pose_a"  value="$(arg initial_pose_a)"  /> 
+    
+    </include>
+
+
+
+    <!-- - - - - - - - - - - -  NANO_ATOM TELEOP - - - - - - - - - - -  -->
+
+    <include if="$(arg launch_teleop)" file="$(find nano_atom_teleop)/launch/teleop_complete.launch">
+
+        <!-- Robot properties -->
+        <arg name="robot_id"        value="$(arg robot_id)"        />
+        <arg name="prefix"          value="$(arg prefix)"          />
+
+        <!-- Teleop options-->
+        <arg name="use_joystick"    value="$(arg use_joystick)"    />
+        <arg name="use_virtual_pad" value="$(arg use_virtual_pad)" />
+        <arg name="use_keyboard"    value="$(arg use_keyboard)"    />
+
+        <!-- Teleop output -->
+        <arg name="cmd_vel"         value="pad_teleop/cmd_vel"     />
+    
+    </include>
+
+
+
+    <!-- - - - - - - - - - - -  NANO_ATOM NAVIGATION - - - - - - - - - - -  -->
+
+    <include if="$(arg launch_navigation)" file="$(find nano_atom_navigation)/launch/navigation_complete.launch">
+        
+        <!-- Robot properties -->
+        <arg name="robot_id"        value="$(arg robot_id)"        />
+        <arg name="prefix"          value="$(arg prefix)"          />
+        <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+        <arg name="base_frame"      value="$(arg base_frame)"      />	
+        <arg name="odom_frame"      value="$(arg odom_frame)"      />
+
+        <!-- Navigation options -->
+        <arg name="use_imu" value="$(arg use_imu)" />		
+
+        <!-- Navigation inputs -->
+        <arg name="scan_topic" value="$(arg scan_topic)" />
+
+    </include>
+
+
+</launch>

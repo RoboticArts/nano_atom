@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<launch>
+    
+    <!-- Robot properties -->
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <!-- Serial communication -->
+    <arg name="serial_port" default="/dev/ttyUSB0" />
+    <arg name="baudrate"    default="115200"       />
+
+    <!-- Motor drivers -->
+    <arg name="motor_frame_id"       default="$(arg prefix)base_link"        />
+    <arg name="motor_setpoint_topic" default="motor_controller/set_setpoint" />
+    <arg name="motor_state_topic"    default="motor_controller/get_state"    />
+
+    <!-- IMU -->
+    <arg name="imu_frame_id" default="$(arg prefix)imu_link" />
+    <arg name="imu_topic"    default="imu/data"              />
+
+    <!-- LEDs -->
+    <arg name="leds_service"        default="set_leds_signal"/>
+    <arg name="leds_signals_config" default="$(find nano_atom_driver)/config/leds_signals.yaml" />
+
+    <!-- nano atom Board options -->
+    <arg name="use_leds" default="false" />
+    <arg name="use_imu"  default="false" />
+
+
+
+    <!-- Start nano atom board-->
+    <node pkg="nano_atom_driver" type="nano_driver_node" name="nano_driver" output="screen">
+
+        <!-- Motor -->
+        <param name="motor_frame_id"       value="$(arg motor_frame_id)"       />
+        <param name="motor_setpoint_topic" value="$(arg motor_setpoint_topic)" />
+        <param name="motor_state_topic"    value="$(arg motor_state_topic)"    />
+
+        <!-- IMU -->
+        <param name="imu_frame_id" value="$(arg imu_frame_id)" />
+        <param name="imu_topic"    value="$(arg imu_topic)"    />
+
+        <!-- LEDs -->
+        <param name="leds_service" value="$(arg leds_service)"       />
+        <rosparam command="load"   file="$(arg leds_signals_config)" />
+
+        <!-- nano atom board options-->
+        <param name="use_leds" value="$(arg use_leds)" />
+        <param name="use_imu"  value="$(arg use_imu)"  />
+    
+    </node>
+
+
+
+    <!-- Start rosserial -->
+    <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+        <param name="port" value="$(arg serial_port)" />
+        <param name="baud" value="$(arg baudrate)"    />
+    </node>
+
+
+</launch>

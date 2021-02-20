@@ -1,0 +1,57 @@
+<?xml version="1.0"?> 
+<launch>
+
+    <!-- - - - - - - - - - - -  NANO_ATOM_HARDWARE - - - - - - - - - - -->
+      
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"            />
+    <arg name="prefix"          default="$(arg robot_id)_" />
+
+    <!-- Robot accesories -->
+    <arg name="use_front_laser"  default="false" />
+    <arg name="use_front_camera" default="false" />
+    <arg name="use_leds"         default="false" />
+    <arg name="use_imu"          default="false" />
+
+
+    <group ns="$(arg robot_id)">
+
+
+        <!-- Start hardware interface-->
+        <include file="$(find nano_atom_reality)/hardware/hardware_interface.launch">
+            <arg name="robot_id"    value="$(arg robot_id)"    />
+            <arg name="prefix"      value="$(arg prefix)"      /> 
+        </include>
+
+
+        <!-- Start nano atom board -->
+        <include file="$(find nano_atom_reality)/hardware/nano_atom_board.launch">
+            <arg name="serial_port" default="/dev/ttyUSB0"      />
+            <arg name="robot_id"    value="$(arg robot_id)"     />
+            <arg name="prefix"      value="$(arg prefix)"       /> 
+            <arg name="use_leds"    value="$(arg use_leds)"     />
+            <arg name="use_imu"     value="$(arg use_imu)"      />
+        </include>
+
+
+        <!-- Start front laser -->
+        <include if="$(arg use_front_laser)" file="$(find nano_atom_reality)/hardware/rplidar.launch">
+            <arg name="serial_port"  value="/dev/ttyUSB_LASER"         />
+            <arg name="robot_id"     value="$(arg robot_id)"           />
+            <arg name="prefix"       value="$(arg prefix)"             />
+            <arg name="laser_prefix" value="$(arg prefix)front_laser_" />
+            <arg name="scan_topic"   value="front_laser/scan"  />
+        </include>
+
+
+        <!-- Start front rgbd camera -->
+        <include if="$(arg use_front_camera)" file="$(find nano_atom_reality)/hardware/kinect_v1.launch">
+            <arg name="robot_id"      value="$(arg robot_id)"             />
+            <arg name="prefix"        value="$(arg prefix)"               />
+            <arg name="camera_prefix" value="$(arg prefix)front_camera_"  />
+        </include>
+        
+        
+    </group>
+
+</launch>

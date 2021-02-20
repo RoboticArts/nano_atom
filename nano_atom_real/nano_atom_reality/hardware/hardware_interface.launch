@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_id"    default="robot"            />
+  <arg name="prefix"      default="$(arg robot_id)_" /> 
+
+  <!-- Load hardware interface config-->	
+  <rosparam file="$(find nano_atom_reality)/config/hardware_interface.yaml" command="load" subst_value="True"/>
+
+  <!-- Start nano atom hardware interface node-->
+  <node name="roboticarts_hardware_interface" pkg="roboticarts_hardware_interface" 
+        type="roboticarts_hardware_interface_node" output="screen"/>
+
+
+</launch>

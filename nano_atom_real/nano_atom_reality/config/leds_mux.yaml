@@ -1,0 +1,29 @@
+services:
+
+- name    : status
+  service : status_leds/cmd_leds
+  timeout : 0.5
+  priority: 255
+
+- name    : emotion
+  service : emotion_leds/cmd_leds
+  timeout : 0.5
+  priority: 100
+
+- name    : navigation
+  service : navigation_leds/cmd_leds
+  timeout : 0.5
+  priority: 21
+
+- name    : teleop
+  service : teleop_leds/cmd_leds
+  timeout : 0.5
+  priority: 20
+
+- name    : external_leds
+  service : cmd_leds
+  timeout : 0.5
+  priority: 1
+
+
+

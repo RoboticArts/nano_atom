@@ -1,0 +1,86 @@
+leds_signals:
+  
+  - name: "FORWARD"
+    behavior: "blink"
+    zone: [3, 18]
+    color: [0, 10, 0]
+    time: 500
+
+  - name: "BACKWARD"
+    behavior: "blink"
+    zone: [23, 38]
+    color: [0, 10, 0]
+    time: 500
+
+  - name: "TURN_LEFT"
+    behavior: "shift_turn_left"
+    zone: [1, 9]
+    color: [0, 10, 0]
+    time: 100
+    
+  - name: "TURN_RIGHT"
+    behavior: "shift_turn_right"
+    zone: [1, 9]
+    color: [0, 10, 0]
+    time: 100
+
+  - name: "OMNI_LEFT"
+    behavior: "blink"
+    zone: [32, 9]
+    color: [0, 10, 0]
+    time: 500
+
+  - name: "OMNI_RIGHT"
+    behavior: "blink"
+    zone: [12, 29]
+    color: [0, 10, 0]
+    time: 500
+
+  - name: "STOP"
+    behavior: "paint"
+    zone: [1,40]
+    color: [0, 10, 0]
+    time: 0
+
+  - name: "EMERGENCY"
+    behavior: "blink"
+    zone: [1, 40]
+    color: [100, 0, 0]
+    time: 500
+
+  - name: "CHARGING"
+    behavior: "shift_right"
+    zone: [1, 10]
+    color: [0, 0, 100]
+    time: 400
+
+  - name: "READY"
+    behavior: "paint"
+    zone: [1,40]
+    color: [40, 20, 0]
+    time: 0  
+
+  - name: "BUSY"
+    behavior: "paint"
+    zone: [1,40]
+    color: [20,40,0]
+    time: 0    
+
+  - name: "SUCCESS"
+    behavior: "paint"
+    zone: [1,40]
+    color: [0,20,0]
+    time: 0
+
+  - name: "FAIL"
+    behavior: "paint"
+    zone: [1, 40]
+    color: [20,0, 0]
+    time: 0
+
+
+  - name: "NONE"
+    behavior: "paint"
+    zone: [1, 40]
+    color: [0,0,0]
+    time: 0

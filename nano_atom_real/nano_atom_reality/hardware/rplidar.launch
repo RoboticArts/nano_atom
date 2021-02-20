@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Robot properties -->
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <!-- Laser link prefix -->
+    <arg name="laser_prefix" default="$(arg prefix)laser_" />
+    
+    <!-- Laser configuration -->
+    <arg name="serial_port" default="/dev/ttyUSB_LASER" />
+    <arg name="baudrate" default="115200"               />
+    <arg name="inverted" default="false"                />
+    <arg name="angle_compensate" default="true"         />
+    <arg name="scan_topic" default="front_laser/scan"   />
+
+    <!-- Enable tf -->
+    <arg name="publish_tf"  default="false"                  />
+    <arg name="fixed_frame" default="$(arg prefix)base_link" />
+
+
+    <!-- Laser driver -->
+    <node pkg="rplidar_ros" type="rplidarNode"  name="rplidarNode"  output="screen">
+        <param name="serial_port"         type="string" value="$(arg serial_port)"/>
+        <param name="serial_baudrate"     type="int"    value="$(arg baudrate)"/>
+        <param name="frame_id"            type="string" value="$(arg laser_prefix)link"/>
+        <param name="inverted"            type="bool"   value="$(arg inverted)"/>
+        <param name="angle_compensate"    type="bool"   value="$(arg angle_compensate)"/>
+        <remap from="scan" to="$(arg scan_topic)"/>
+    </node>
+
+
+    <group if="$(arg publish_tf)">
+
+      <!-- Laser frame -->
+      <node pkg="tf2_ros" type="static_transform_publisher" name="$(arg laser_prefix)link"
+        args="0.09286 0 0.58275 0 0 0  $(arg fixed_frame) $(arg laser_prefix)link" />    
+      
+    </group>
+
+
+</launch>
