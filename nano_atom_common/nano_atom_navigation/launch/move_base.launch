@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- - - - - - - - - - - -  GENERAL ARGUMENTS - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id"            default="robot"                       />
+    <arg name="prefix"              default="$(arg robot_id)_"            /> 
+    <arg name="footprint_frame"     default="$(arg prefix)base_footprint" />	
+    <arg name="base_frame"          default="$(arg prefix)base_link"      />	
+    <arg name="odom_frame"          default="$(arg prefix)odom"           />
+
+    <!-- Navigation inputs -->
+    <arg name="scan_topic" default="front_laser/scan" />
+
+    <!-- Navigation options -->
+    <arg name="use_imu" default="true" />
+
+
+    <!-- Start TEB planner-->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+        <!-- Remap cmd_vel and odom -->
+        <remap                         from="cmd_vel" to="move_base/cmd_vel"                 />
+        <remap if="$(arg use_imu)"     from="odom"    to="mobile_base_controller/odom_fused" />
+        <remap unless="$(arg use_imu)" from="odom"    to="mobile_base_controller/odom"       />
+	
+        <!-- Load navigation parameters -->
+    	<rosparam file="$(find nano_atom_navigation)/config/move_base_params.yaml"                          command="load" subst_value="True" />
+        <rosparam file="$(find nano_atom_navigation)/config/local_costmap_params.yaml"                      command="load" subst_value="True" />
+        <rosparam file="$(find nano_atom_navigation)/config/global_costmap_params_map.yaml"                 command="load" subst_value="True" />
+        <rosparam file="$(find nano_atom_navigation)/config/teb_local_planner_diff_params.yaml"             command="load" subst_value="True" />
+        <rosparam file="$(find nano_atom_navigation)/config/costmap_common_params.yaml" ns="global_costmap" command="load" subst_value="True" />
+        <rosparam file="$(find nano_atom_navigation)/config/costmap_common_params.yaml" ns="local_costmap"  command="load" subst_value="True" />
+	
+    </node>
+
+
+</launch>
+
+

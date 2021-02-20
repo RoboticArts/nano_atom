@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- - - - - - - - - - - -  NANO ATOM NAVIGATION - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"                       />
+    <arg name="prefix"          default="$(arg robot_id)_"            />
+    <arg name="footprint_frame" default="$(arg prefix)base_footprint" />	
+    <arg name="base_frame"      default="$(arg prefix)base_link"      />	
+    <arg name="odom_frame"      default="$(arg prefix)odom"           />
+
+    <!-- Navigation inputs -->
+    <arg name="scan_topic"    default="front_laser/scan"  />
+
+    <!-- Navigation options -->
+    <arg name="use_imu"       default="true" />
+
+
+    <group ns="$(arg robot_id)">
+
+        <!-- Start move base -->
+        <include file="$(find nano_atom_navigation)/launch/move_base.launch">
+
+            <arg name="robot_id"        value="$(arg robot_id)"        />
+            <arg name="prefix"          value="$(arg prefix)"          /> 
+            <arg name="footprint_frame" value="$(arg footprint_frame)" />	
+            <arg name="base_frame"      value="$(arg base_frame)"      />	
+            <arg name="odom_frame"      value="$(arg odom_frame)"      />
+
+            <arg name="scan_topic"       value="$(arg scan_topic)"     />
+
+            <arg name="use_imu"          value="$(arg use_imu)"        />
+
+        </include>
+
+    </group>
+
+
+</launch>
