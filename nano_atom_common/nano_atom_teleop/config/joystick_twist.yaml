@@ -1,0 +1,9 @@
+ pad_twist:
+
+  linear_init:  0.5
+  linear_increment:  0.01
+  linear_max:  0.17
+
+  angular_init: 2.0
+  angular_increment: 0.2
+  angular_max: 3.0

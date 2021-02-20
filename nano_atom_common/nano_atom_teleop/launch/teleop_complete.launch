@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- - - - - - - - - - - -  NANO ATOM TELEOP - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"            />
+    <arg name="prefix"          default="$(arg robot_id)_" />
+
+    <!-- Teleop options -->
+    <arg name="use_joystick"    default="true"  />
+    <arg name="use_virtual_pad" default="false" />
+    <arg name="use_keyboard"    default="false" />
+
+    <!-- Teleop output -->
+    <arg name="cmd_vel" default="pad_teleop/cmd_vel" />
+
+    <!-- Teleop properties -->
+    <arg name="joystick_twist" default="$(find nano_atom_teleop)/config/joystick_twist.yaml" />
+
+
+    <group ns="$(arg robot_id)">
+
+        <!-- Start joystick -->
+        <include if="$(arg use_joystick)" file="$(find roboticarts_pad)/launch/roboticarts_pad.launch">
+        
+            <arg name="joy_dev"   value="/dev/input/js0"           />
+            <arg name="cmd_vel"   value="pad_teleop/cmd_vel"       />
+            <arg name="driver"    value="generic"                  />
+            <arg name="pad"       value="tgz"                      />
+            <arg name="pad_twist" value="$(arg joystick_twist)"    />
+        </include>
+
+    </group>
+
+</launch>
