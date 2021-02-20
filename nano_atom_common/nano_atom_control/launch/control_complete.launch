@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<launch>
+
+
+    <!-- - - - - - - - - - - - - - - -  NANO ATOM CONTROL - - - - - - - - - - - - - - -->
+    
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"                         />
+    <arg name="prefix"          default="$(arg robot_id)_"              />
+    <arg name="footprint_frame" default="$(arg prefix)base_footprint"   />	
+    <arg name="base_frame"      default="$(arg prefix)base_link"        />	
+    <arg name="odom_frame"      default="$(arg prefix)odom"             />
+
+    <!-- Control options -->
+    <arg name="use_sim" default="true" />
+    <arg name="use_imu" default="true" />
+
+
+    <group ns="$(arg robot_id)">
+
+        <!-- - - - - - - - - - - - - - -  NANO ATOM DIFF CONTROLLER - - - - - - - - - - - - - -->
+
+        <!-- Publish odom tf using only encoders, useful when there is no IMU-->
+        <arg if="$(arg use_imu)" name="enable_odom_tf" default="false" />
+        <arg unless="$(arg use_imu)" name ="enable_odom_tf" default = "true" />
+
+        <!-- Multiple to compensate for wheel slip, it depends on the surface of the robot--> 
+        <arg if="$(arg use_sim)" name="wheel_separation_multiplier" default="1.195" />
+        <arg unless="$(arg use_sim)" name ="wheel_separation_multiplier" default = "1.195" />
+
+        <!-- Load joint nano_atom controller configurations from YAML file to parameter server -->
+        <rosparam file="$(find nano_atom_control)/config/diff_control.yaml" command="load" subst_value="True"/>
+
+        <!-- Load nano_atom controllers -->
+        <node name="nano_atom_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" 
+            output="screen" args="
+                                mobile_base_controller
+                                joint_state_controller
+                                ">
+        </node>
+
+
+        <!-- - - - - - - - - - - - - - - -  NANO ATOM SENSORY FUSION - - - - - - - - - - - - - -->
+
+        <!-- If a imu is avaiable, fuses the wheel and imu data -->
+        <group if="$(arg use_imu)">
+
+            <!-- Load EKF configuration -->
+            <rosparam file="$(find nano_atom_control)/config/ekf_fusion.yaml" command="load" subst_value="True" />
+
+            <!-- Start EKF for localization -->
+            <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" output="screen" >
+                <remap from="odometry/filtered"    to="mobile_base_controller/odom_fused" /> 
+            </node>
+        
+        </group>
+
+
+        <!-- - - - - - - - - - - - - - - -  CMD_VEL MULTIPLEXER - - - - - - - - - - - - - - -->
+
+        <!-- Mux for twist-->
+        <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+
+            <rosparam command="load" file="$(find nano_atom_control)/config/twist_mux.yaml" />
+            <remap from="cmd_vel_out" to="mobile_base_controller/cmd_vel" />
+        
+        </node>
+
+    </group>
+
+</launch>

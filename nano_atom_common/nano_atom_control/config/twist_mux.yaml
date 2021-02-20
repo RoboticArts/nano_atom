@@ -1,0 +1,22 @@
+topics:
+
+- name    : pad
+  topic   : pad_teleop/cmd_vel
+  timeout : 0.5
+  priority: 10
+
+- name    : move_base
+  topic   : move_base/cmd_vel
+  timeout : 0.5
+  priority: 5
+
+- name    : external
+  topic   : cmd_vel
+  timeout : 0.5
+  priority: 1
+
+locks:
+- name    : emergency_stop
+  topic   : emergency_stop
+  timeout : 0.0    
+  priority: 255

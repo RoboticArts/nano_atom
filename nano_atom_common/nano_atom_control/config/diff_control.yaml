@@ -1,0 +1,58 @@
+
+  joint_state_controller:
+    type: "joint_state_controller/JointStateController"
+    publish_rate: 100
+
+  mobile_base_controller:
+    type: "diff_drive_controller/DiffDriveController"
+    left_wheel: '$(arg prefix)left_wheel_joint'  
+    right_wheel: '$(arg prefix)right_wheel_joint'
+    publish_rate: 50
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+    cmd_vel_timeout: 0.25
+ 
+    base_frame_id: $(arg footprint_frame)   
+    odom_frame_id: $(arg odom_frame) 
+
+
+    # Set enable_odom_tf to true to publish odom using ONLY encoders
+    enable_odom_tf: $(arg enable_odom_tf)  
+
+
+    # Set it to true to calculate speed using position. If the robot hardware 
+    # returns velocity set it to false so ROS doesn't recalculate it again.
+    estimate_velocity_from_position: false
+    velocity_rolling_window_size: 2
+
+
+    # Wheel separation and radius
+    wheel_separation : 0.09038
+    wheel_radius :  0.0215 
+
+
+    # Wheel separation and radius multipliers
+    # Wheel slip causes wheel travel to not match robot travel. This is compensated by 
+    # increasing the wheel separation multiplier
+    wheel_separation_multiplier: $(arg wheel_separation_multiplier) 
+    wheel_radius_multiplier    : 1.0 
+
+
+    # Velocity and acceleration limits
+    # Whenever a min_* is unspecified, default to -max_*
+    linear:
+      x:
+        has_velocity_limits    : true
+        max_velocity           :  0.17   # m/s
+        min_velocity           : -0.17   # m/s
+        has_acceleration_limits: true
+        max_acceleration       :  12.0   # m/s^2
+        min_acceleration       : -12.0   # m/s^2
+    angular:
+      z:
+        has_velocity_limits    :  true
+        max_velocity           :  3.4   # rad/s 
+        min_velocity           : -3.4   # rad/s 
+        has_acceleration_limits:  true
+        max_acceleration       :  12.0   # rad/s^2
+        min_acceleration       :  -12.0  # rad/s^2
