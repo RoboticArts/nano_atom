@@ -1,0 +1,12 @@
+When robot model is enabled on RVIZ, it shows on the terminal the following warning:
+
+[WARNING]  The STL file 'package://nano_atom_description/meshes/wheels/right_wheel.stl' is malformed. It starts with the word 'solid', indicating that it's an ASCII STL file, but it does not contain the word 'endsolid' so it is either a malformed ASCII STL file or it is actually a binary STL file. Trying to interpret it as a binary STL file instead.
+
+Solution: https://gist.github.com/awesomebytes/2595b1dc41831c804a4f
+
+Execute this command inside the folder where are the STL files. Make sure there are only STL files.
+
+$ sed -i 's/^solid/robot/' *
+
+
+

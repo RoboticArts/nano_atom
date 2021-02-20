@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot name="caster" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- - - - - - - - - - - - - - CASTER PARAMETERS - - - - - - - - - - - - - -->
+
+  <xacro:property name = "M_PI"         value="3.1415926535897931" />
+  <xacro:property name = "caster_mass"   value = "0.01"             />
+  <xacro:property name = "caster_radius" value = "0.00573"           />
+
+
+<!-- - - - - - - - - - - - - - CASTER DEFINITION - - - - - - - - - - -  - -->
+
+  <xacro:macro name ="caster_wheel" params = "prefix parent *origin">
+
+    <!-- caster & base joint -->
+    <joint name="${prefix}caster_joint" type="fixed">
+      <xacro:insert_block name ="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}caster_link" />
+      <axis xyz="1 1 0" />
+    </joint>
+
+    <!-- caster link -->
+    <link name="${prefix}caster_link">
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${caster_mass}" />
+        <inertia ixx="1.313316e-07" ixy="0.0" ixz="0.0" iyy="1.313316e-07" iyz="0.0" izz="1.313316e-07" /> 
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://nano_atom_description/meshes/wheels/nano_atom_caster_wheel.stl" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="${caster_radius}"/>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <gazebo reference="${prefix}caster_link">
+      <mu1 value="0.7"/>
+      <mu2 value="0.7"/>
+      <kp value="10000000.0" />
+      <kd value="1.0" />
+      <fdir1 value="1 0 0"/>
+    </gazebo>
+
+  </xacro:macro>
+
+
+</robot>

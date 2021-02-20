@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- - - - - - - - - - - -  NANO ATOM DESCRIPTION - - - - - - - - - - -->
+
+    <!-- Robot properties -->
+    <arg name="robot_id"        default="robot"                       />
+    <arg name="prefix"          default="$(arg robot_id)_"            />
+    <arg name="footprint_frame" default="$(arg prefix)base_footprint" />	
+    <arg name="base_frame"      default="$(arg prefix)base_link"      />	
+    
+    <!-- Use simulation-->
+    <arg name="use_sim"         default="true"                        />
+
+    <!-- Robot accesories -->
+    <arg name="use_front_laser"  default="true" />
+    <arg name="use_front_camera" default="true" />
+    <arg name="use_imu"          default="true" />
+    <arg name="use_leds"         default="true" />
+
+    <!-- Robot position -->
+    <arg name="initial_pose_x" default="0.0" />
+    <arg name="initial_pose_y" default="0.0" />
+    <arg name="initial_pose_z" default="0.0" />
+    <arg name="initial_pose_a" default="0.0" />
+
+    
+    <group ns="$(arg robot_id)">
+
+        <!-- Load the URDF into ROS Parameter Server -->
+        <arg name="xacro_robot" default="$(find nano_atom_description)/robots/nano_atom_std.urdf.xacro" />
+        <param name="robot_description" command="$(find xacro)/xacro '$(arg xacro_robot)'
+                robot_id:=$(arg robot_id)
+                prefix:=$(arg prefix)
+                footprint_frame:=$(arg footprint_frame)
+                base_frame:=$(arg base_frame)
+                use_front_laser:=$(arg use_front_laser) 
+                use_front_camera:=$(arg use_front_camera)
+                use_imu:=$(arg use_imu)
+                use_central_cube:=false
+                use_sim:=$(arg use_sim)
+        "/>
+        
+
+        <!-- Spawn model into gazebo -->
+        <group if="$(arg use_sim)">
+
+            <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+                args="-urdf -x $(arg initial_pose_x) -y $(arg initial_pose_y) -z $(arg initial_pose_z) 
+                            -Y $(arg initial_pose_a)
+                            -model $(arg robot_id) -param robot_description"/>
+
+        </group>
+
+
+        <!-- Start robot state publisher -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" 
+            respawn="false" output="screen" />
+
+    </group>
+
+
+</launch>

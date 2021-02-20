@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<robot name="base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+
+<!-- - - - - - - - - - - - - - BASE FOOTPRINT - - - - - - - - - - - - - -->
+
+  <xacro:macro name ="base_footprint" params = "link_name">
+
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+  </xacro:macro>
+
+
+<!-- - - - - - - - - - - - - - - BASE LINK - - - - - - - - - - - - - - - -->
+
+  <xacro:macro name ="base_link" params = "link_name">
+
+    <link name="${link_name}">
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.05" /> 
+        <inertia ixx="0.00216045" ixy="0.0" ixz="0.0" iyy="0.00216045" iyz="0.0" izz="0.00432" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://nano_atom_description/meshes/bases/nano_atom_chassis.stl" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <mesh filename="package://nano_atom_description/meshes/bases/nano_atom_chassis.stl" />
+        </geometry>
+      </collision>
+
+    </link>
+
+  </xacro:macro>
+
+<!-- - - - - - - - - - - -  BASE & FOOTPRINT JOINT - - - - - - - - - - - -->
+
+  <xacro:macro name ="base_footprint_joint" params = "prefix parent child *origin">
+
+    <joint name="${prefix}base_footprint_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+    </joint>
+
+  </xacro:macro>
+
+
+<!-- - - - - - - - - - - - -  REFERENCIAL CUBE - - - - - - - - - - - - -  -->
+
+<!-- Cube placed in the rotational center of the robot for debug purposes -->
+
+  <xacro:macro name ="central_cube" params ="prefix parent">
+
+    <link name="${prefix}central_cube_link">
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+              <box size="0.01 0.01 0.01" />
+          </geometry>
+      </visual>
+    </link>
+
+    <joint name="${prefix}central_cube_link_joint" type="fixed">
+      <origin xyz="0 0 0.3" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="${prefix}central_cube_link"/>
+    </joint>
+
+    <gazebo reference="${prefix}central_cube_link">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+  </xacro:macro>
+
+
+</robot>

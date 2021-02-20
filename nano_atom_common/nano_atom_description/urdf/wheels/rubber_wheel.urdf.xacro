@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<robot name="wheels" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <!-- - - - - - - - - - - - - - WHEEL PARAMETERS - - - - - - - - - - - - - -->
+
+
+  <xacro:property name = "M_PI"         value="3.1415926535897931" />
+  <xacro:property name = "wheel_mass"   value = "0.02"            />
+  <xacro:property name = "wheel_radius" value = "0.0215"           />
+  <xacro:property name = "wheel_width"  value = "0.018"            />
+
+
+
+  <!-- - - - - - - - - - - - - - RIGHT & LEFT INERTIA - - - - - - - - - - - - - -->
+  
+  <xacro:macro name="inertia_selector" params = "wheel">
+
+    <xacro:if value = "${wheel.endswith('right')}">
+      <inertia ixx="2.85125e-06" ixy="0.0" ixz="0.0" iyy="2.85125e-06" iyz="0.0" izz="4.6225e-06" /> 
+    </xacro:if>
+
+    <xacro:if value = "${wheel.endswith('left')}">
+      <inertia ixx="2.85125e-06" ixy="0.0" ixz="0.0" iyy="2.85125e-06" iyz="0.0" izz="4.6225e-06" /> 
+    </xacro:if>
+
+  </xacro:macro>
+
+
+<!-- - - - - - - - - - - - - - RIGHT & LEFT MESH - - - - - - - - - - - - - -->
+
+  <xacro:macro name="mesh_selector" params = "wheel extension">
+
+    <xacro:if value = "${wheel.endswith('right')}">
+      <mesh filename="package://nano_atom_description/meshes/wheels/nano_atom_right_rubber_wheel${extension}" />
+    </xacro:if>
+
+    <xacro:if value = "${wheel.endswith('left')}">
+      <mesh filename="package://nano_atom_description/meshes/wheels/nano_atom_left_rubber_wheel${extension}" />
+    </xacro:if>
+
+  </xacro:macro>
+
+
+  <!-- - - - - - - - - - - - - - RIGHT & LEFT ORIGIN - - - - - - - - - - - - - -->
+
+  <xacro:macro name="origin_selector" params = "wheel">
+
+    <xacro:if value = "${wheel.endswith('right')}">
+      <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+    </xacro:if>
+
+    <xacro:if value = "${wheel.endswith('left')}">
+      <origin xyz="0 0 0"  rpy="${M_PI/2} 0 0" />
+    </xacro:if>
+
+  </xacro:macro>
+
+
+
+<!-- - - - - - - - - - - - - - WHEEL DEFINITION - - - - - - - - - - - - - -->
+
+  <xacro:macro name ="omni_wheel" params = "prefix parent *origin type">
+
+    <!-- wheel & base joint-->
+    <joint name="${prefix}wheel_joint" type="continuous">
+      <xacro:insert_block name ="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}wheel_link" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <!-- wheel link -->
+    <link name="${prefix}wheel_link">
+
+      <inertial>
+        <origin_selector wheel = "${type}" />
+        <mass value="${wheel_mass}" />
+        <inertia_selector wheel = "${type}" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh_selector wheel = "${type}"  extension = ".stl" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin_selector wheel = "${type}" /> 
+        <geometry>
+          <cylinder length="${wheel_width}" radius="${wheel_radius}" />
+        </geometry>
+      </collision>
+
+    </link>
+
+    <!-- wheel transmission -->
+    <transmission name="${prefix}wheel_joint_trans" type="SimpleTransmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${prefix}wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="${prefix}wheel_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <!-- 
+      Wheel parameters have been commented. The reason is that in 
+      Gazebo 7.0 it doesn't matter if they are defined. However,
+      in Gazebo 9.0 (or higher) any setting other than the default 
+      one causes a weird behavior in the robot rotations,(skid steer) 
+
+      Behavior description: When robot rotates, it also moves forward and backward.
+      Therefore, when the robot is only rotating, it also moves. This causes a 
+      significant odometry error.
+    -->
+    
+    <!-- wheel friction 
+    <gazebo reference="${prefix}wheel_link">
+      <mu1 value="0.7"/>
+      <mu2 value="0.7"/>
+      <kp value="10000000.0" />
+      <kd value="1.0" />
+      <fdir1 value="1 0 0"/>
+    </gazebo>
+    -->
+
+  </xacro:macro>
+
+
+</robot>

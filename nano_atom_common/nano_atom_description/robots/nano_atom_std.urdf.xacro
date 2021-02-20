@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<robot name="nano_atom" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- - - - - - - - - - - - - - GLOBAL ARGUMENTS - - - - - - - - - - - - - -->
+
+  <xacro:arg name="robot_id"          default="robot"            />  
+  <xacro:arg name="prefix"            default="$(arg robot_id)_" />  
+  <xacro:arg name="use_front_laser"   default="false"            />
+  <xacro:arg name="use_front_camera"  default="false"            /> 
+  <xacro:arg name="use_imu"           default="false"            />
+  <xacro:arg name="use_central_cube"  default="false"            />
+  <xacro:arg name="use_sim"           default="true"             />
+
+  <xacro:arg name="footprint_frame"   default="$(arg prefix)base_footprint" />
+  <xacro:arg name="base_frame"        default="$(arg prefix)base_link"      />
+
+  <xacro:property name = "M_PI"       value="3.1415926535897931" />
+
+
+<!-- - - - - - - - - - - - - - XACRO INCLUDES - - - - - - - - - - - - - -->
+
+
+  <!-- Import nano_atom base elements -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/bases/nano_atom_base.urdf.xacro" />
+
+  <!-- Import nano_atom wheels -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/wheels/rubber_wheel.urdf.xacro" />
+  <xacro:include filename="$(find nano_atom_description)/urdf/wheels/caster_wheel.urdf.xacro" />
+
+  <!-- Import nano_atom accessories: kinect support accesory -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/accesories/kinect_support.urdf.xacro" />
+
+
+  <!-- Import nano_atom sensors: ydlidar x2 -->
+  <xacro:include filename="$(find roboticarts_sensors)/urdf/ydlidar_x2.urdf.xacro" />
+
+  <!-- Import nano_atom sensors: kinect camera -->
+  <xacro:include filename="$(find roboticarts_sensors)/urdf/kinect.urdf.xacro" />
+  
+  <!-- Import nano_atom sensors: imu sensor -->
+  <xacro:include filename="$(find roboticarts_sensors)/urdf/imu.urdf.xacro" />
+
+
+<!-- - - - - - - - - - - - - - GENERAL GAZEBO PLUGINS - - - - - - - - - - -->
+
+  <xacro:if value="$(arg use_sim)">
+
+    <gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>false</legacyModeNS> 
+      </plugin>
+    </gazebo>
+
+  </xacro:if>
+
+<!-- - - - - - - - - - - - - - - BASE DEFINITION  - - - - - - - - - - - - - -->
+
+ 
+  <!-- base_footprint definition -->
+  <xacro:base_footprint link_name = "$(arg footprint_frame)"/>
+
+  <!-- base_link definition -->
+  <xacro:base_link link_name = "$(arg base_frame)" />
+
+
+  <!-- footprint to base joint -->
+  <xacro:base_footprint_joint prefix = "$(arg prefix)" parent ="$(arg footprint_frame)" child = "$(arg base_frame)" >
+    <origin xyz="0 0 0.0165" rpy="0 0 0" />
+  </xacro:base_footprint_joint>
+
+  <!-- Cube placed in the rotational center of the robot for debug purposes -->
+  <xacro:if value="$(arg use_central_cube)">
+    <xacro:central_cube prefix="$(arg prefix)" parent ="$(arg base_frame)" />
+  </xacro:if>
+ 
+ 
+
+<!-- - - - - - - - - - - - - - WHEELS DEFINITION  - - - - - - - - - - - - - -->
+
+
+  <!-- Wheel parameters -->
+	<xacro:property name="wheel_offset_x" value="0.0" />   
+	<xacro:property name="wheel_offset_y" value="0.04519" />
+	<xacro:property name="wheel_offset_z" value="0.005" />
+
+  <xacro:omni_wheel prefix="$(arg prefix)right_" parent ="$(arg base_frame)" type="right">
+  	<origin xyz="${wheel_offset_x} -${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+  <xacro:omni_wheel prefix="$(arg prefix)left_" parent ="$(arg base_frame)" type="left">
+  	<origin xyz="${wheel_offset_x} +${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
+  </xacro:omni_wheel>
+
+
+  <!-- Caster parameters -->
+	<xacro:property name="caster_offset_x" value="0.04746" />   
+	<xacro:property name="caster_offset_y" value="0.0" />
+	<xacro:property name="caster_offset_z" value="0.01075" />
+
+  <xacro:caster_wheel prefix="$(arg prefix)front_" parent ="$(arg base_frame)">
+  	<origin xyz="+${caster_offset_x} +${caster_offset_y} -${caster_offset_z}" rpy="0 0 0"/>
+  </xacro:caster_wheel>
+
+
+  <xacro:caster_wheel prefix="$(arg prefix)rear_" parent ="$(arg base_frame)">
+  	<origin xyz="-${caster_offset_x} +${caster_offset_y} -${caster_offset_z}" rpy="0 0 0"/>
+  </xacro:caster_wheel>
+
+
+<!-- - - - - - - - - - - - - - ACCESORIES DEFINITION  - - - - - - - - - - - - - -->
+ 
+
+  <!-- ydlidar x2 lidar sensor -->
+  <xacro:if value="$(arg use_front_laser)">
+
+    <xacro:sensor_ydlidar_x2 prefix="$(arg prefix)front_laser_" parent="$(arg base_frame)" prefix_topic="front_laser/scan" use_sim="$(arg use_sim)" >
+      <origin xyz="0 0 0.08538" rpy="0 0 0"/> 
+    </xacro:sensor_ydlidar_x2>
+
+  </xacro:if>
+
+
+  <!-- IMU Sensor -->
+  <xacro:if value="$(arg use_imu)">
+
+    <xacro:sensor_imu prefix="$(arg prefix)imu_" parent ="$(arg base_frame)" prefix_topic="imu/data" use_sim="$(arg use_sim)" >
+      <origin xyz="-0.0305 0 0.036" rpy="0 0 0"/> 
+    </xacro:sensor_imu>
+
+  </xacro:if>
+
+
+  <!-- kinect camera  
+  <xacro:if value="$(arg use_front_camera)">
+
+    <xacro:sensor_kinect prefix="$(arg prefix)front_camera_" parent ="$(arg base_frame)" prefix_topic="front_camera" use_sim="$(arg use_sim)" >
+      <origin xyz="-0.05 0 0.27" rpy="0 0 0"/>
+    </xacro:sensor_kinect>
+
+  </xacro:if>
+  -->
+
+</robot>
+
+
