@@ -1,0 +1,16 @@
+[Unit]
+Description=This service boots the robot
+Requires=dbus.socket
+After=multi-user.target
+
+[Service]
+# Graphical interface commented
+# Environment="DISPLAY=:0"
+# Environment="XAUTHORITY=/run/user/1000/gdm/Xauthority"
+User=robot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c 'export ROBOT_AUTOBOOT=true && $HOME/bringup.sh'
+
+[Install]
+WantedBy=multi-user.target
+
