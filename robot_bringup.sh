@@ -8,6 +8,8 @@ source $ROBOT_WORKSPACE/devel/setup.bash
 source $ROBOT_WORKSPACE/src/nano_atom/robot_params.env
 
 export ROSMON_COLOR_MODE=256colors
+export DISPLAY=:0
+export XAUTHORITY=/run/user/1000/gdm/Xauthority
 
 run_screen() {
   
