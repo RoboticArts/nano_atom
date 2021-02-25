@@ -19,7 +19,7 @@ run_screen() {
   screen -dmS $name bash; 
   screen -S $name -X stuff "source /opt/ros/$ROS_DISTRO/setup.bash\n";
   screen -S $name -X stuff "source $ROBOT_WORKSPACE/devel/setup.bash\n";
-  screen -S $name -X stuff "source $ROBOT_PARAMS/robot_params.env\n";
+  screen -S $name -X stuff "source $ROBOT_WORKSPACE/src/nano_atom/robot_params.env\n";
   screen -S $name -X stuff "$command\n";
   sleep 1;
 } 
@@ -77,7 +77,7 @@ fi
 if $ROBOT_RUN_NAVIGATION 
 then
   echo "Launching robot navigation.."
-  run_screen  "navigation" "roslaunch nano_atom_navigation localization_navigation.launch";
+  run_screen  "navigation" "roslaunch nano_atom_navigation navigation_complete.launch";
 fi
 
 
