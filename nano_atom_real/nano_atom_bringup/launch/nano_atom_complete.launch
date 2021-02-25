@@ -5,32 +5,38 @@
     <!-- - - - - - - - - - -  NANO ATOM BRINGUP REAL - - - - - - - - - - -->
 
     <!-- Robot properties -->
-    <arg name="robot_id" default="robot"            />
-    <arg name="prefix"   default="$(arg robot_id)_" />
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)" />
+    <arg name="prefix"   default="$(arg robot_id)_"         />
 
     <!-- Robot position -->
-    <arg name="initial_pose_x" default="0.0"  />
-    <arg name="initial_pose_y" default="0.0"  />
-    <arg name="initial_pose_z" default="0.0"  />
-    <arg name="initial_pose_a" default="0.0"  />
+    <arg name="initial_pose_x" default="$(optenv ROBOT_INITIAL_POSE_X 0.0)" />
+    <arg name="initial_pose_y" default="$(optenv ROBOT_INITIAL_POSE_Y 0.0)" />
+    <arg name="initial_pose_z" default="$(optenv ROBOT_INITIAL_POSE_Z 0.0)" />
+    <arg name="initial_pose_a" default="$(optenv ROBOT_INITIAL_POSE_A 0.0)" />
 
     <!-- Robot RVIZ -->
-    <arg name="launch_rviz" default="true" />
+    <arg name="launch_rviz" default="$(optenv ROBOT_RUN_RVIZ true)" />
 
     <!-- Robot accesories -->
-    <arg name="use_front_laser"  default="false" />
-    <arg name="use_front_camera" default="false" />
-    <arg name="use_imu"          default="true" />
-    <arg name="use_leds"         default="false" />
+    <arg name="use_front_laser"  default="$(optenv ROBOT_FRONT_LASER true)"  />
+    <arg name="use_front_camera" default="$(optenv ROBOT_FRONT_CAMERA true)" />
+    <arg name="use_imu"          default="$(optenv ROBOT_IMU true)"          />
+    <arg name="use_leds"         default="$(optenv ROBOT_LEDS false)"        />
+
+    <!-- Robot devices -->
+    <arg name="front_laser_dev"  default="$(optenv ROBOT_FRONT_LASER_DEV /dev/ttyUSB_LASER)" />
+    <arg name="front_camera_dev" default="$(optenv ROBOT_FRONT_CAMERA_DEV /dev/video0)"      />
+    <arg name="imu_dev"          default="$(optenv ROBOT_IMU_DEV /dev/ttyUSB_IMU)"           />
+    <arg name="leds_dev"         default="$(optenv ROBOT_LEDS_DEV /dev/ttyUSB_LEDS)"         />
 
     <!-- Robot localization -->
     <arg name="launch_localization" default="false" />
-    <arg name="launch_amcl"         default="false" /> 
+    <arg name="launch_amcl"         default="true"  /> 
     <arg name="launch_mapping"      default="false" />
-    <arg name="map_file"            default="testzone_map/testzone_map.yaml" />
+    <arg name="map_file"            default="nano_city_map/nano_city_map.yaml" />
 
     <!-- Robot teleop -->
-    <arg name="launch_teleop"   default="true"  />
+    <arg name="launch_teleop"   default="false" />
     <arg name="use_joystick"    default="true"  />
     <arg name="use_virtual_pad" default="false" />
     <arg name="use_keyboard"    default="false" />

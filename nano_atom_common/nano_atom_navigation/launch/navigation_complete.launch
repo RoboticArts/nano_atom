@@ -4,17 +4,17 @@
     <!-- - - - - - - - - - - -  NANO ATOM NAVIGATION - - - - - - - - - - -->
 
     <!-- Robot properties -->
-    <arg name="robot_id"        default="robot"                       />
+    <arg name="robot_id"        default="$(optenv ROBOT_ID robot)"    />
     <arg name="prefix"          default="$(arg robot_id)_"            />
     <arg name="footprint_frame" default="$(arg prefix)base_footprint" />	
     <arg name="base_frame"      default="$(arg prefix)base_link"      />	
     <arg name="odom_frame"      default="$(arg prefix)odom"           />
 
     <!-- Navigation inputs -->
-    <arg name="scan_topic"    default="front_laser/scan"  />
+    <arg name="scan_topic" default="front_laser/scan" />
 
     <!-- Navigation options -->
-    <arg name="use_imu"       default="true" />
+    <arg name="use_imu" default="$(optenv ROBOT_IMU true)" />
 
 
     <group ns="$(arg robot_id)">
@@ -27,10 +27,10 @@
             <arg name="footprint_frame" value="$(arg footprint_frame)" />	
             <arg name="base_frame"      value="$(arg base_frame)"      />	
             <arg name="odom_frame"      value="$(arg odom_frame)"      />
+ 
+            <arg name="scan_topic"      value="$(arg scan_topic)"      />
 
-            <arg name="scan_topic"       value="$(arg scan_topic)"     />
-
-            <arg name="use_imu"          value="$(arg use_imu)"        />
+            <arg name="use_imu"         value="$(arg use_imu)"         />
 
         </include>
 

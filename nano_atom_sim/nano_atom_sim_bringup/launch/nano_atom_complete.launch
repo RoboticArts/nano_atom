@@ -5,42 +5,42 @@
     <!-- - - - - - - - - - -  NANO ATOM BRINGUP SIM - - - - - - - - - - -->
 
     <!-- Robot properties -->
-    <arg name="robot_id" default="robot"            />
-    <arg name="prefix"   default="$(arg robot_id)_" />
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)" />
+    <arg name="prefix"   default="$(arg robot_id)_"         />
 
     <!-- Robot position -->
-    <arg name="initial_pose_x" default="0.0"  />
-    <arg name="initial_pose_y" default="0.0"  />
-    <arg name="initial_pose_z" default="0.0"  />
-    <arg name="initial_pose_a" default="0.0"  />
+    <arg name="initial_pose_x" default="$(optenv ROBOT_INITIAL_POSE_X 0.0)"  />
+    <arg name="initial_pose_y" default="$(optenv ROBOT_INITIAL_POSE_Y 0.0)"  />
+    <arg name="initial_pose_z" default="$(optenv ROBOT_INITIAL_POSE_Z 0.0)"  />
+    <arg name="initial_pose_a" default="$(optenv ROBOT_INITIAL_POSE_A 0.0)"  />
 
-    <!-- Gazebo world -->
-    <arg name="gazebo_world" default="$(find nano_atom_simulation)/worlds/nano_atom_city.world" />
-    <arg name="gazebo_gui"   default="true" />
+    <!-- Gazebo simulation -->
+    <arg name="gazebo_gui"    default="$(optenv ROBOT_SIM_GUI true)" />
+    <arg name="gazebo_world"  default="$(optenv ROBOT_SIM_WORLD nano_atom_city.world)" />
 
     <!-- Robot RVIZ -->
-    <arg name="launch_rviz" default="true" />
+    <arg name="launch_rviz" default="$(optenv ROBOT_RUN_RVIZ true)" />
 
     <!-- Robot accesories -->
-    <arg name="use_front_laser"  default="true"  />
-    <arg name="use_front_camera" default="false"  />
-    <arg name="use_imu"          default="true"  />
-    <arg name="use_leds"         default="false"  />
+    <arg name="use_front_laser"  default="$(optenv ROBOT_FRONT_LASER true)"  />
+    <arg name="use_front_camera" default="$(optenv ROBOT_FRONT_CAMERA true)" />
+    <arg name="use_imu"          default="$(optenv ROBOT_IMU true)"          />
+    <arg name="use_leds"         default="$(optenv ROBOT_LEDS false)"        />
 
     <!-- Robot localization -->
-    <arg name="launch_localization" default="true" />
+    <arg name="launch_localization" default="false" />
     <arg name="launch_amcl"         default="true"  /> 
     <arg name="launch_mapping"      default="false" />
-    <arg name="map_file"            default="testzone_map/testzone_map.yaml" />
+    <arg name="map_file"            default="nano_city_map/nano_city_map.yaml" />
 
     <!-- Robot teleop -->
-    <arg name="launch_teleop"   default="true"  />
+    <arg name="launch_teleop"   default="false"  />
     <arg name="use_joystick"    default="true"  />
     <arg name="use_virtual_pad" default="false" />
     <arg name="use_keyboard"    default="false" />
 
     <!-- Robot navigation -->
-    <arg name="launch_navigation"   default="true" />
+    <arg name="launch_navigation"   default="false" />
 
 
     <!-- - - - - - - - - - -  SPAWN NANO ATOM SIM - - - - - - - - - - -->

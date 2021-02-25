@@ -4,25 +4,25 @@
     <!-- - - - - - - - - - - -  NANO ATOM LOCALIZATION - - - - - - - - - - -->
 
     <!-- Robot properties -->
-    <arg name="robot_id"        default="robot"                        />
+    <arg name="robot_id"        default="$(optenv ROBOT_ID robot)"     />
     <arg name="prefix"          default="$(arg robot_id)_"             />
     <arg name="footprint_frame" default="$(arg prefix)base_footprint"  />
     <arg name="base_frame"      default="$(arg prefix)base_link"       />	
     <arg name="odom_frame"      default="$(arg prefix)odom"            />
 
     <!-- Localization options-->
-    <arg name="launch_amcl"    default="true"  />
-    <arg name="launch_mapping" default="false" />
+    <arg name="launch_amcl"    default="$(optenv ROBOT_AMCL true)"  />
+    <arg name="launch_mapping" default="$(optenv ROBOT_MAPPING false)" />
     
     <!-- Localization inputs -->
-    <arg name="scan_topic"     default="front_laser/scan"               />
-    <arg name="map_file"       default="testzone_map/testzone_map.yaml" />
+    <arg name="scan_topic"     default="$(optenv ROBOT_FRONT_LASER_TOPIC front_laser/scan)" />
+    <arg name="map_file"       default="$(optenv ROBOT_MAP nano_city_map/nano_city.yaml)" />
 
     <!-- Initial localization -->
-    <arg name="initial_pose_x"  default="0.0" />
-    <arg name="initial_pose_y"  default="0.0" />
-    <arg name="initial_pose_z"  default="0.0" />
-    <arg name="initial_pose_a"  default="0.0" />
+    <arg name="initial_pose_x" default="$(optenv ROBOT_INITIAL_POSE_X 0.0)" />
+    <arg name="initial_pose_y" default="$(optenv ROBOT_INITIAL_POSE_Y 0.0)" />
+    <arg name="initial_pose_z" default="$(optenv ROBOT_INITIAL_POSE_Z 0.0)" />
+    <arg name="initial_pose_a" default="$(optenv ROBOT_INITIAL_POSE_A 0.0)" />
 
 
     <group ns="$(arg robot_id)">
