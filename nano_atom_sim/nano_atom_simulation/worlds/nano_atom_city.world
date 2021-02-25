@@ -86,7 +86,7 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
-    <model name='rai_mini_atom_zone'>
+    <model name='nano_atom_city'>
       <link name='link_0'>
         <inertial>
           <mass>1</mass>
@@ -104,7 +104,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>model://rai_mini_atom_zone/meshes/rai_mini_atom_zone.STL</uri>
+              <uri>model://nano_atom_city/meshes/nano_atom_city.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -128,7 +128,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>model://rai_mini_atom_zone/meshes/rai_mini_atom_zone.STL</uri>
+              <uri>model://nano_atom_city/meshes/nano_atom_city.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -201,7 +201,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='rai_mini_atom_zone'>
+      <model name='nano_atom_city'>
         <pose frame=''>0.038626 -0.073502 -3.9e-05 0 1.6e-05 0</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
