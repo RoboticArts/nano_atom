@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Terminal=true
+Name=Click-Script
+Icon=utilities-terminal
+Exec=bash -c '"$(dirname %k)"/robot_bringup.sh'
+# Exec=gnome-terminal -e "bash -c './robot_bringup.sh;$SHELL'"
+Categories=Application;
+Name[es_ES]=robot_desktop
