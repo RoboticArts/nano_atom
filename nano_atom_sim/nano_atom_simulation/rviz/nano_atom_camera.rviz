@@ -6,9 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
-        - /Imu1
         - /Imu1/Axes properties1
-        - /Polygon1
       Splitter Ratio: 0.5
     Tree Height: 564
   - Class: rviz/Selection
@@ -142,22 +140,21 @@ Visualization Manager:
       Show Names: false
       Tree:
         robot_map:
-          {}
-        robot_odom:
-          robot_base_footprint:
-            robot_base_link:
-              robot_front_caster_link:
-                {}
-              robot_front_laser_link:
-                {}
-              robot_imu_link:
-                {}
-              robot_left_wheel_link:
-                {}
-              robot_rear_caster_link:
-                {}
-              robot_right_wheel_link:
-                {}
+          robot_odom:
+            robot_base_footprint:
+              robot_base_link:
+                robot_front_caster_link:
+                  {}
+                robot_front_laser_link:
+                  {}
+                robot_imu_link:
+                  {}
+                robot_left_wheel_link:
+                  {}
+                robot_rear_caster_link:
+                  {}
+                robot_right_wheel_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -223,6 +220,72 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: raw
+      Draw Behind: false
+      Enabled: false
+      Name: Global Costmap
+      Topic: /robot/move_base/global_costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: false
+      Name: Local Costmap
+      Topic: /robot/move_base/local_costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 0; 25; 255
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Global Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /robot/move_base/TebLocalPlannerROS/global_plan
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 252; 233; 79
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Local Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /robot/move_base/TebLocalPlannerROS/local_plan
+      Unreliable: false
+      Value: true
     - Alpha: 1
       Arrow Length: 0.30000001192092896
       Axes Length: 0.30000001192092896
@@ -240,62 +303,6 @@ Visualization Manager:
       Unreliable: false
       Value: false
     - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 0; 25; 255
-      Enabled: true
-      Head Diameter: 0.30000001192092896
-      Head Length: 0.20000000298023224
-      Length: 0.30000001192092896
-      Line Style: Lines
-      Line Width: 0.029999999329447746
-      Name: Path
-      Offset:
-        X: 0
-        Y: 0
-        Z: 0
-      Pose Color: 255; 85; 255
-      Pose Style: None
-      Radius: 0.029999999329447746
-      Shaft Diameter: 0.10000000149011612
-      Shaft Length: 0.10000000149011612
-      Topic: /robot/move_base/NavfnROS/plan
-      Unreliable: false
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 0; 0; 0
-      Enabled: true
-      Head Diameter: 0.30000001192092896
-      Head Length: 0.20000000298023224
-      Length: 0.30000001192092896
-      Line Style: Lines
-      Line Width: 0.029999999329447746
-      Name: Path
-      Offset:
-        X: 0
-        Y: 0
-        Z: 0
-      Pose Color: 255; 85; 255
-      Pose Style: None
-      Radius: 0.029999999329447746
-      Shaft Diameter: 0.10000000149011612
-      Shaft Length: 0.10000000149011612
-      Topic: /robot/move_base/TebLocalPlannerROS/local_plan
-      Unreliable: false
-      Value: true
-    - Alpha: 0.699999988079071
-      Class: rviz/Map
-      Color Scheme: costmap
-      Draw Behind: false
-      Enabled: true
-      Name: Local Costmap
-      Topic: /robot/move_base/local_costmap/costmap
-      Unreliable: false
-      Use Timestamp: false
-      Value: true
-    - Alpha: 1
       Arrow Length: 0.30000001192092896
       Axes Length: 0.30000001192092896
       Axes Radius: 0.009999999776482582
@@ -311,6 +318,14 @@ Visualization Manager:
       Topic: /robot/move_base/TebLocalPlannerROS/teb_poses
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Polygon
+      Topic: /robot/move_base/local_costmap/footprint
+      Unreliable: false
+      Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
@@ -322,12 +337,15 @@ Visualization Manager:
       Unreliable: false
       Value: true
       Visibility:
+        Camera: true
+        Global Costmap: true
+        Global Path: true
         Grid: true
         Imu: true
         LaserScan: true
         Local Costmap: true
+        Local Path: true
         Map: true
-        Path: true
         Polygon: true
         RobotModel: true
         TF: true
@@ -335,19 +353,11 @@ Visualization Manager:
         amcl pose: true
         teb pose: true
       Zoom Factor: 1
-    - Alpha: 1
-      Class: rviz/Polygon
-      Color: 25; 255; 0
-      Enabled: true
-      Name: Polygon
-      Topic: /robot/move_base/local_costmap/footprint
-      Unreliable: false
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: robot_odom
+    Fixed Frame: robot_map
     Frame Rate: 30
   Name: root
   Tools:
@@ -370,26 +380,21 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/XYOrbit
-      Distance: 1.7860805988311768
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0.053252726793289185
-        Y: -0.3101140260696411
-        Z: 0
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2953981161117554
+      Scale: 149.60057067871094
       Target Frame: <Fixed Frame>
-      Value: XYOrbit (rviz)
-      Yaw: 4.463579177856445
+      Value: TopDownOrtho (rviz)
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   Camera:
