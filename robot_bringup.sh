@@ -28,7 +28,7 @@ run_screen() {
 
 echo "killall screens..."
 killall screen
-sleep 2;
+sleep 3;
 
 echo "Starting roscore..."
 run_screen "core" "roscore";
@@ -59,12 +59,19 @@ else
   run_screen "bringup" "mon launch nano_atom_bringup nano_atom_complete.launch";
 fi
 
+sleep 2;
 
 if $ROBOT_RUN_TELEOP 
 then
   echo "Launching robot teleop..."
-  run_screen  "teleop" "man launch nano_atom_teleop teleop_complete.launch";
-  run_screen "ps4" "ds4drv --hidraw";
+
+  if [[ $ROBOT_PAD_DRIVER == "ds4drv" ]]
+  then
+    	run_screen "ds4drv" "ds4drv --hidraw";  
+  fi
+
+  run_screen  "teleop" "mon launch nano_atom_teleop teleop_complete.launch";
+  
 fi
 
 
