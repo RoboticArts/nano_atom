@@ -1,0 +1,24 @@
+<?xml version="1.0"?> 
+<launch>
+
+    <!-- Robot properties -->
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <!-- Camera configuration -->
+    <arg name="video_port"    default="/dev/ttyS0"                 />
+    <arg name="camera_prefix" default="$(arg prefix)front_camera_" />
+    <arg name="video_width"   default="640"                        />
+    <arg name="video_height"  default="480"                        />
+
+    <!-- Camera driver -->
+    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+        <param name="video_device"    value="$(arg video_port)"        />
+        <param name="image_width"     value="640"                      />
+        <param name="image_height"    value="480"                      />
+        <param name="pixel_format"    value="yuyv"                     />
+        <param name="camera_frame_id" value="$(arg camera_prefix)link" />
+        <param name="io_method"       value="mmap"                     />
+    </node>
+
+</launch>

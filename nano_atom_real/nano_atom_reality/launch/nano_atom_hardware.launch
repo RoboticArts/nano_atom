@@ -10,8 +10,13 @@
     <!-- Robot accesories -->
     <arg name="use_front_laser"  default="false" />
     <arg name="use_front_camera" default="false" />
-    <arg name="use_leds"         default="false" />
     <arg name="use_imu"          default="false" />
+    <arg name="use_leds"         default="false" />
+
+    <!-- Robot devices -->
+    <arg name="front_laser_dev"     default="/dev/ttyUSB_LASER" />
+    <arg name="front_camera_dev"    default="/dev/video0"       />
+    <arg name="nano_atom_board_dev" default="/dev/ttyS0"        />
 
 
     <group ns="$(arg robot_id)">
@@ -19,33 +24,34 @@
 
         <!-- Start hardware interface-->
         <include file="$(find nano_atom_reality)/hardware/hardware_interface.launch">
-            <arg name="robot_id"    value="$(arg robot_id)"    />
-            <arg name="prefix"      value="$(arg prefix)"      /> 
+            <arg name="robot_id" value="$(arg robot_id)" />
+            <arg name="prefix"   value="$(arg prefix)"   /> 
         </include>
 
 
-        <!-- Start nano atom board -->
+        <!-- Start nano atom board: motors, imu and leds -->
         <include file="$(find nano_atom_reality)/hardware/nano_atom_board.launch">
-            <arg name="serial_port" default="/dev/ttyUSB0"      />
-            <arg name="robot_id"    value="$(arg robot_id)"     />
-            <arg name="prefix"      value="$(arg prefix)"       /> 
-            <arg name="use_leds"    value="$(arg use_leds)"     />
-            <arg name="use_imu"     value="$(arg use_imu)"      />
+            <arg name="serial_port" value="$(arg nano_atom_board_dev)" />
+            <arg name="robot_id"    value="$(arg robot_id)"            />
+            <arg name="prefix"      value="$(arg prefix)"              /> 
+            <arg name="use_leds"    value="$(arg use_leds)"            />
+            <arg name="use_imu"     value="$(arg use_imu)"             />
         </include>
 
 
         <!-- Start front laser -->
-        <include if="$(arg use_front_laser)" file="$(find nano_atom_reality)/hardware/rplidar.launch">
-            <arg name="serial_port"  value="/dev/ttyUSB_LASER"         />
+        <include if="$(arg use_front_laser)" file="$(find nano_atom_reality)/hardware/ydlidar_x2.launch">
+            <arg name="serial_port"  value="$(arg front_laser_dev)"    />
             <arg name="robot_id"     value="$(arg robot_id)"           />
             <arg name="prefix"       value="$(arg prefix)"             />
             <arg name="laser_prefix" value="$(arg prefix)front_laser_" />
-            <arg name="scan_topic"   value="front_laser/scan"  />
+            <arg name="scan_topic"   value="front_laser/scan"          />
         </include>
 
 
-        <!-- Start front rgbd camera -->
-        <include if="$(arg use_front_camera)" file="$(find nano_atom_reality)/hardware/kinect_v1.launch">
+        <!-- Start front camera -->
+        <include if="$(arg use_front_camera)" file="$(find nano_atom_reality)/hardware/camera_ov5647.launch">
+            <arg name="video_port"    value="$(arg front_camera_dev)" />
             <arg name="robot_id"      value="$(arg robot_id)"             />
             <arg name="prefix"        value="$(arg prefix)"               />
             <arg name="camera_prefix" value="$(arg prefix)front_camera_"  />

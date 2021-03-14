@@ -93,6 +93,12 @@
         <arg name="use_imu"          value="$(arg use_imu)"          />
         <arg name="use_leds"         value="$(arg use_leds)"         />	
 
+        <!-- Robot devices -->
+        <arg name="front_laser_dev"  value="$(arg front_laser_dev)"  />
+        <arg name="front_camera_dev" value="$(arg front_camera_dev)" />
+        <arg name="imu_dev"          value="$(arg imu_dev)"          />
+        <arg name="leds_dev"         value="$(arg leds_dev)"         />	
+
     </include>
 
 

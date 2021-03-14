@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Robot properties -->
+    <arg name="robot_id" default="robot"            />
+    <arg name="prefix"   default="$(arg robot_id)_" />
+
+    <!-- Laser configuration -->
+    <arg name="serial_port"    default="/dev/ttyUSB_LASER"   />
+    <arg name="laser_prefix"   default="$(arg prefix)laser_" />
+    <arg name="scan_topic"     default="front_laser/scan"    />
+
+    <!-- Laser driver -->
+    <node name="ydlidar_node" pkg="ydlidar_ros" type="ydlidar_node" output="screen" respawn="false" >
+        <param name="port"             type="string" value="$(arg serial_port)" />  
+        <param name="baudrate"         type="int"    value="115200"             />  
+        <param name="frame_id"         type="string" value="laser_frame"        />
+        <param name="resolution_fixed" type="bool"   value="true"               />
+        <param name="auto_reconnect"   type="bool"   value="true"               />
+        <param name="reversion"        type="bool"   value="false"              />
+        <param name="angle_min"        type="double" value="-180"               />
+        <param name="angle_max"        type="double" value="180"                />
+        <param name="range_min"        type="double" value="0.1"                />
+        <param name="range_max"        type="double" value="12.0"               />
+        <param name="ignore_array"     type="string" value=""                   />
+        <param name="frequency"        type="double" value="8"                  />
+        <param name="samp_rate"        type="int"    value="3"                  />
+        <param name="isSingleChannel"  type="bool"   value="true"               />
+        <remap from="scan"                           to="$(arg scan_topic)"     />
+    </node>
+
+</launch>
