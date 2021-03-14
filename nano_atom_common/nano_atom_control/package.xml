@@ -53,6 +53,11 @@
   <build_export_depend>controller_manager</build_export_depend>
   <exec_depend>controller_manager</exec_depend>
 
+  <!-- Packages that will be installed with rosdep -->
+  <build_depend>twist_mux</build_depend>
+
+  <exec_depend>twist_mux</exec_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
