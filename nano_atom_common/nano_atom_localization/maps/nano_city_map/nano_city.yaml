@@ -1,6 +1,6 @@
 image: nano_city.pgm
 resolution: 0.010000
-origin: [-3.0000, -3.120000, 0.000000]
+origin: [-6.0000, -6.00000, 0.000000]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
