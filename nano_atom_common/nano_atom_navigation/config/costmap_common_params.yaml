@@ -3,12 +3,9 @@ robot_radius: 0.06
 
 publish_frequency: 1.0
 
-inflation_layer:
-  inflation_radius: 0.15
-
 obstacle_layer:
-  obstacle_range: 0.5
-  raytrace_range: 1.5
+  obstacle_range: 5.0
+  raytrace_range: 5.0
   observation_sources: front_laser 
   front_laser: 
     sensor_frame: $(arg prefix)front_laser_link  

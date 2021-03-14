@@ -8,12 +8,12 @@ TebLocalPlannerROS:
   # Trajectory
 
   teb_autosize: true
-  dt_ref: 0.3
+  dt_ref: 0.25 # Important: number of arrows in the local path
   dt_hysteresis: 0.1
   min_samples: 3
   global_plan_overwrite_orientation: true
   global_plan_viapoint_sep: 0.5 # negative, do not use viapoints. positive, use them. the actual value does not matter
-  max_global_plan_lookahead_dist: 1.0  # Important: local path distance
+  max_global_plan_lookahead_dist: 0.75  # Important: local path distance
   force_reinit_new_goal_dist: 1.0
   feasibility_check_no_poses: 5  # Number of warnings  "trajectory is not feasible. Resetting planner...""
 
@@ -56,7 +56,7 @@ TebLocalPlannerROS:
 
   # Obstacles
   min_obstacle_dist: 0.05 # minimum distance to obstacle: it depends on the footprint_model
-  costmap_obstacles_behind_robot_dist: 0.5 # distance at which obstacles behind the robot are taken into account
+  costmap_obstacles_behind_robot_dist: 3.0 # distance at which obstacles behind the robot are taken into account
   inflation_dist: 0.35 # greater than min_obstacle_dist to take effect
 
   include_costmap_obstacles: true # use the local costmap
@@ -64,6 +64,10 @@ TebLocalPlannerROS:
   legacy_obstacle_association: false
   obstacle_association_force_inclusion_factor: 1.5 # the obstacles that will be taken into account are those closer than min_obstacle_dist*factor, if legacy is false
   obstacle_association_cutoff_factor: 5.0 # the obstacles that are further than min_obstacle_dist * factor will not be taken into account, if legacy is false
+  
+  
+  # Costmap converter
+
   costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
   #costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSRANSAC"
   #costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSMCCH"
@@ -71,8 +75,13 @@ TebLocalPlannerROS:
   #costmap_converter_plugin: "" # deactivate plugin
   costmap_converter_spin_thread: true
   costmap_converter_rate: 5
-  # costmap_converter/CostmapToLinesDBSRANSAC:
-  #    cluster_max_distance: 0.4
+  
+  costmap_converter/CostmapToPolygonsDBSMCCH:
+    cluster_max_distance: 0.1  # Important param, limits the robot in narrow spaces
+    cluster_min_pts: 2
+    cluster_max_pts: 30
+    convex_hull_min_pt_separation: 0.1
+
 
   # Optimization
 
@@ -88,11 +97,11 @@ TebLocalPlannerROS:
   weight_acc_lim_y: 0.0  # Only holonomic
   weight_acc_lim_theta: 1.0
   weight_kinematics_nh: 10000 # is a nonholonomic robot
-  weight_kinematics_forward_drive: 400.0 # prefer forward driving, for differential
+  weight_kinematics_forward_drive: 10000.0 # prefer forward driving, for differential
   weight_kinematics_turning_radius: 0.0 # prefer turns that respect the min_turning_radius, not used if differential (min_turning_radius = 0)
   weight_optimaltime: 10 # prefer trajectories with less transition time
-  weight_obstacle: 50 # prefer trajectories that respect the min_obstacle_dist
-  weight_inflation: 1 # prefer trajectories that respect the inflation of the obstacles
+  weight_obstacle: 1000 # prefer trajectories that respect the min_obstacle_dist
+  weight_inflation: 1.7 # prefer trajectories that respect the inflation of the obstacles
   weight_viapoint: 1 # prefer trajectories that respect the viapoints in the global path
   weight_adapt_factor: 2 # factor to multiply some weights (currently only weight_obstacle) at each iteration (gives better results than a huge value for the weight)
 
