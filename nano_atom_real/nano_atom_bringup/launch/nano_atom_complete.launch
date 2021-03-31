@@ -24,11 +24,10 @@
     <arg name="use_leds"         default="$(optenv ROBOT_LEDS false)"        />
 
     <!-- Robot devices -->
-    <arg name="front_laser_dev"  default="$(optenv ROBOT_FRONT_LASER_DEV /dev/ttyUSB_LASER)" />
-    <arg name="front_camera_dev" default="$(optenv ROBOT_FRONT_CAMERA_DEV /dev/video0)"      />
-    <arg name="imu_dev"          default="$(optenv ROBOT_IMU_DEV /dev/ttyUSB_IMU)"           />
-    <arg name="leds_dev"         default="$(optenv ROBOT_LEDS_DEV /dev/ttyUSB_LEDS)"         />
-
+    <arg name="front_laser_dev"  default="$(optenv ROBOT_FRONT_LASER_DEV /dev/ttyUSB_LASER)"     />
+    <arg name="nano_board_dev"   default="$(optenv ROBOT_NANO_BOARD_DEV /dev/ttyUSB_NANO_BOARD)" />
+    <arg name="front_camera_dev" default="$(optenv ROBOT_FRONT_CAMERA_DEV /dev/video0)"          />
+    
     <!-- Robot localization -->
     <arg name="launch_localization" default="false" />
     <arg name="launch_amcl"         default="true"  /> 
@@ -95,9 +94,8 @@
 
         <!-- Robot devices -->
         <arg name="front_laser_dev"  value="$(arg front_laser_dev)"  />
+        <arg name="nano_board_dev"   value="$(arg nano_board_dev)"   />
         <arg name="front_camera_dev" value="$(arg front_camera_dev)" />
-        <arg name="imu_dev"          value="$(arg imu_dev)"          />
-        <arg name="leds_dev"         value="$(arg leds_dev)"         />	
 
     </include>
 

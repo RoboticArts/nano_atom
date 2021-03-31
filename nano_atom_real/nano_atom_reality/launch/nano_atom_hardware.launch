@@ -14,10 +14,9 @@
     <arg name="use_leds"         default="false" />
 
     <!-- Robot devices -->
-    <arg name="front_laser_dev"     default="/dev/ttyUSB_LASER" />
-    <arg name="front_camera_dev"    default="/dev/video0"       />
-    <arg name="nano_atom_board_dev" default="/dev/ttyS0"        />
-
+    <arg name="front_laser_dev"     default="/dev/ttyUSB_LASER"      />
+    <arg name="nano_board_dev"      default="/dev/ttyUSB_NANO_BOARD" />
+    <arg name="front_camera_dev"    default="/dev/video0"            />
 
     <group ns="$(arg robot_id)">
 
@@ -31,7 +30,7 @@
 
         <!-- Start nano atom board: motors, imu and leds -->
         <include file="$(find nano_atom_reality)/hardware/nano_atom_board.launch">
-            <arg name="serial_port" value="$(arg nano_atom_board_dev)" />
+            <arg name="serial_port" value="$(arg nano_board_dev)" />
             <arg name="robot_id"    value="$(arg robot_id)"            />
             <arg name="prefix"      value="$(arg prefix)"              /> 
             <arg name="use_leds"    value="$(arg use_leds)"            />
