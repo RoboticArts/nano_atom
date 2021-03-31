@@ -1,12 +1,12 @@
 #!/bin/bash
 
-export ROBOT_WORKSPACE=~/ws/nano_atom # Robot workspace path
-export ROBOT_FOLDER=src/nano_atom     # Robot package path
+export ROBOT_WORKSPACE=~/catkin_ws  # Robot workspace path
+export ROBOT_FOLDER=`dirname "$0"`  # Robot package path
 
-echo "Nano Atom auto-starting!"
+echo "Nano Atom auto-start!"
 
 source $ROBOT_WORKSPACE/devel/setup.bash 
-source $ROBOT_WORKSPACE/$ROBOT_FOLDER/robot_params.env
+source $ROBOT_FOLDER/robot_params.env
 
 export ROSMON_COLOR_MODE=256colors
 export DISPLAY=:0
@@ -20,7 +20,7 @@ run_screen() {
   screen -dmS $name bash; 
   screen -S $name -X stuff "source /opt/ros/$ROS_DISTRO/setup.bash\n";
   screen -S $name -X stuff "source $ROBOT_WORKSPACE/devel/setup.bash\n";
-  screen -S $name -X stuff "source $ROBOT_WORKSPACE/$ROBOT_FOLDER/robot_params.env\n";
+  screen -S $name -X stuff "source $ROBOT_FOLDER/robot_params.env\n";
   screen -S $name -X stuff "$command\n";
   sleep 1;
 } 
