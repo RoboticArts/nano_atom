@@ -6,15 +6,16 @@
     <arg name="prefix"   default="$(arg robot_id)_" />
 
     <!-- Laser configuration -->
-    <arg name="serial_port"    default="/dev/ttyUSB_LASER"   />
-    <arg name="laser_prefix"   default="$(arg prefix)laser_" />
-    <arg name="scan_topic"     default="front_laser/scan"    />
+    <arg name="serial_port"    default="/dev/ttyUSB_LASER"       />
+    <arg name="laser_prefix"   default="$(arg prefix)laser_"     />
+    <arg name="laser_frame"    default="$(arg laser_prefix)link" />
+    <arg name="scan_topic"     default="front_laser/scan"        />
 
     <!-- Laser driver -->
     <node name="ydlidar_node" pkg="ydlidar_ros" type="ydlidar_node" output="screen" respawn="false" >
         <param name="port"             type="string" value="$(arg serial_port)" />  
         <param name="baudrate"         type="int"    value="115200"             />  
-        <param name="frame_id"         type="string" value="laser_frame"        />
+        <param name="frame_id"         type="string" value="$(arg laser_frame)" />
         <param name="resolution_fixed" type="bool"   value="true"               />
         <param name="auto_reconnect"   type="bool"   value="true"               />
         <param name="reversion"        type="bool"   value="false"              />
