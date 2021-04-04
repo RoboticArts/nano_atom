@@ -1,0 +1,2 @@
+# Udev rule for the cp210x usb to serial converter used by rpilidar and ylidar lasers
+SUBSYSTEM=="tty" ATTRS{idVendor}=="10c4" ATTRS{idProduct}=="ea60", MODE:="0777" SYMLINK+="ttyUSB_LASER"

@@ -1,0 +1,2 @@
+# This rule renames ttyS0 Raspberry Pi serial port to the ttySERIAL_NANO_BOARD symlink for the  nano atom board communication
+KERNEL=="ttyS0",SYMLINK+="ttyS_NANO_BOARD" GROUP="dialout"

@@ -1,0 +1,2 @@
+# This rule renames ttyS0 Raspberry Pi serial port to the ttyNANO_BOARD symlink 
+KERNEL=="video0",SYMLINK+="video_PICAM" GROUP="dialout"
