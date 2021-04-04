@@ -14,9 +14,9 @@
     <arg name="use_leds"         default="false" />
 
     <!-- Robot devices -->
-    <arg name="front_laser_dev"     default="/dev/ttyUSB_LASER"      />
-    <arg name="nano_board_dev"      default="/dev/ttyUSB_NANO_BOARD" />
-    <arg name="front_camera_dev"    default="/dev/video0"            />
+    <arg name="front_laser_dev"     default="/dev/ttyUSB_LASER"    />
+    <arg name="nano_board_dev"      default="/dev/ttyS_NANO_BOARD" />
+    <arg name="front_camera_dev"    default="/dev/video_PICAM"     />
 
     <group ns="$(arg robot_id)">
 
