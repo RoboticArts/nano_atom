@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
 Terminal=true
-Name=Click-Script
+Name=robot_desktop
 Icon=utilities-terminal
-Exec=bash -c '"$(dirname %k)"/robot_bringup.sh'
-# Exec=bash -c '"$(dirname %k)"/robot_bringup.sh;$SHELL'
+# Exec=bash -c 'export KPATH=%k; ${KPATH/"/robot_desktop.desktop"}/robot_bringup.sh;  $SHELL'
+Exec=bash -c 'export KPATH=%k; ${KPATH/"/robot_desktop.desktop"}/robot_bringup.sh;'
 Categories=Application;
-Name[es_ES]=robot_desktop
+Name[en_EN]=robot_desktop
