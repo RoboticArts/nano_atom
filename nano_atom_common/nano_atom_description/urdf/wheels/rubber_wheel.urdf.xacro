@@ -60,7 +60,7 @@
 
 <!-- - - - - - - - - - - - - - WHEEL DEFINITION - - - - - - - - - - - - - -->
 
-  <xacro:macro name ="omni_wheel" params = "prefix parent *origin type">
+  <xacro:macro name ="rubber_wheel" params = "prefix parent *origin type">
 
     <!-- wheel & base joint-->
     <joint name="${prefix}wheel_joint" type="continuous">
@@ -74,20 +74,20 @@
     <link name="${prefix}wheel_link">
 
       <inertial>
-        <origin_selector wheel = "${type}" />
+        <xacro:origin_selector wheel = "${type}" />
         <mass value="${wheel_mass}" />
-        <inertia_selector wheel = "${type}" />
+        <xacro:inertia_selector wheel = "${type}" />
       </inertial>
 
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh_selector wheel = "${type}"  extension = ".stl" />
+          <xacro:mesh_selector wheel = "${type}"  extension = ".stl" />
         </geometry>
       </visual>
 
       <collision>
-        <origin_selector wheel = "${type}" /> 
+        <xacro:origin_selector wheel = "${type}" /> 
         <geometry>
           <cylinder length="${wheel_width}" radius="${wheel_radius}" />
         </geometry>

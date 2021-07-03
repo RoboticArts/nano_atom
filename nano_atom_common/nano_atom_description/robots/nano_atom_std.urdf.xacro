@@ -7,10 +7,11 @@
   <xacro:arg name="robot_id"          default="robot"            />  
   <xacro:arg name="prefix"            default="$(arg robot_id)_" />  
   <xacro:arg name="use_front_laser"   default="false"            />
-  <xacro:arg name="use_front_camera"  default="false"            /> 
+  <xacro:arg name="use_front_camera"  default="false"            />
   <xacro:arg name="use_imu"           default="false"            />
   <xacro:arg name="use_central_cube"  default="false"            />
   <xacro:arg name="use_sim"           default="true"             />
+  <xacro:arg name="gpu_laser_sim"     default="true"             />
 
   <xacro:arg name="footprint_frame"   default="$(arg prefix)base_footprint" />
   <xacro:arg name="base_frame"        default="$(arg prefix)base_link"      />
@@ -28,15 +29,15 @@
   <xacro:include filename="$(find nano_atom_description)/urdf/wheels/rubber_wheel.urdf.xacro" />
   <xacro:include filename="$(find nano_atom_description)/urdf/wheels/caster_wheel.urdf.xacro" />
 
-  <!-- Import nano_atom accessories: kinect support accesory -->
-  <xacro:include filename="$(find nano_atom_description)/urdf/accesories/kinect_support.urdf.xacro" />
+  <!-- Import nano_atom accessories: kinect support accessory -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/accessories/ov5647_support.urdf.xacro" />
 
 
   <!-- Import nano_atom sensors: ydlidar x2 -->
   <xacro:include filename="$(find roboticarts_sensors)/urdf/ydlidar_x2.urdf.xacro" />
 
-  <!-- Import nano_atom sensors: kinect camera -->
-  <xacro:include filename="$(find roboticarts_sensors)/urdf/kinect.urdf.xacro" />
+  <!-- Import nano_atom sensors: ov5647 camera -->
+  <xacro:include filename="$(find roboticarts_sensors)/urdf/ov5647.urdf.xacro" />
   
   <!-- Import nano_atom sensors: imu sensor -->
   <xacro:include filename="$(find roboticarts_sensors)/urdf/imu.urdf.xacro" />
@@ -85,13 +86,13 @@
 	<xacro:property name="wheel_offset_y" value="0.04519" />
 	<xacro:property name="wheel_offset_z" value="0.005" />
 
-  <xacro:omni_wheel prefix="$(arg prefix)right_" parent ="$(arg base_frame)" type="right">
+  <xacro:rubber_wheel prefix="$(arg prefix)right_" parent ="$(arg base_frame)" type="right">
   	<origin xyz="${wheel_offset_x} -${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
-  </xacro:omni_wheel>
+  </xacro:rubber_wheel>
 
-  <xacro:omni_wheel prefix="$(arg prefix)left_" parent ="$(arg base_frame)" type="left">
+  <xacro:rubber_wheel prefix="$(arg prefix)left_" parent ="$(arg base_frame)" type="left">
   	<origin xyz="${wheel_offset_x} +${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
-  </xacro:omni_wheel>
+  </xacro:rubber_wheel>
 
 
   <!-- Caster parameters -->
@@ -109,13 +110,15 @@
   </xacro:caster_wheel>
 
 
-<!-- - - - - - - - - - - - - - ACCESORIES DEFINITION  - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - ACCESSORIES DEFINITION  - - - - - - - - - - - - - -->
  
 
   <!-- ydlidar x2 lidar sensor -->
   <xacro:if value="$(arg use_front_laser)">
 
-    <xacro:sensor_ydlidar_x2 prefix="$(arg prefix)front_laser_" parent="$(arg base_frame)" prefix_topic="front_laser/scan" use_sim="$(arg use_sim)" >
+    <xacro:sensor_ydlidar_x2 prefix="$(arg prefix)front_laser_" parent="$(arg base_frame)" prefix_topic="front_laser/scan" use_sim="$(arg use_sim)"
+                             gpu_sim="$(arg gpu_laser_sim)" >
+
       <origin xyz="0 0 0.08538" rpy="0 0 0"/> 
     </xacro:sensor_ydlidar_x2>
 
@@ -132,15 +135,21 @@
   </xacro:if>
 
 
-  <!-- kinect camera  
+  <!-- Front Camera -->
   <xacro:if value="$(arg use_front_camera)">
 
-    <xacro:sensor_kinect prefix="$(arg prefix)front_camera_" parent ="$(arg base_frame)" prefix_topic="front_camera" use_sim="$(arg use_sim)" >
-      <origin xyz="-0.05 0 0.27" rpy="0 0 0"/>
-    </xacro:sensor_kinect>
+    <!-- ov5647 support -->
+    <xacro:ov5647_support prefix="$(arg prefix)support_camera_" parent ="$(arg base_frame)">
+      <origin xyz="0.064 0 0.0715" rpy="0 0 0"/>
+    </xacro:ov5647_support>
+
+    <!-- ov5647 camera -->
+    <xacro:sensor_ov5647 prefix="$(arg prefix)front_camera_" parent ="$(arg prefix)support_camera_link" prefix_topic="front_camera" use_sim="$(arg use_sim)" >
+      <origin xyz="0.002 0 -0.017" rpy="0 0 0"/>
+    </xacro:sensor_ov5647>
 
   </xacro:if>
-  -->
+  
 
 </robot>
 

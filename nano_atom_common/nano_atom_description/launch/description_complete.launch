@@ -9,14 +9,15 @@
     <arg name="footprint_frame" default="$(arg prefix)base_footprint" />	
     <arg name="base_frame"      default="$(arg prefix)base_link"      />	
     
-    <!-- Use simulation-->
-    <arg name="use_sim"         default="true"                        />
-
-    <!-- Robot accesories -->
+    <!-- Robot accessories -->
     <arg name="use_front_laser"  default="true" />
     <arg name="use_front_camera" default="true" />
     <arg name="use_imu"          default="true" />
     <arg name="use_leds"         default="true" />
+
+    <!-- Simulation options -->
+    <arg name="use_sim"       default="true"  />
+    <arg name="gpu_laser_sim" default="false" />
 
     <!-- Robot position -->
     <arg name="initial_pose_x" default="0.0" />
@@ -39,6 +40,7 @@
                 use_imu:=$(arg use_imu)
                 use_central_cube:=false
                 use_sim:=$(arg use_sim)
+                gpu_laser_sim:=$(arg gpu_laser_sim)
         "/>
         
 
