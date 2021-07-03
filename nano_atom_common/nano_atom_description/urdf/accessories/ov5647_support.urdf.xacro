@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
-<robot name="structure_kinect_support" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="ov5647_support" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name ="structure_kinect_support" params="prefix parent *origin">
+  <xacro:macro name ="ov5647_support" params="prefix parent *origin">
 
-    <link name="${prefix}_link">
+    <link name="${prefix}link">
         <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-            <mesh filename="package://nano_atom_description/meshes/accessories/kinect_support_simple.stl" />
+            <mesh filename="package://nano_atom_description/meshes/accessories/ov5647_support.stl" />
         </geometry>
         </collision>
 
         <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-            <mesh filename="package://nano_atom_description/meshes/accessories/kinect_support.dae" />
+            <mesh filename="package://nano_atom_description/meshes/accessories/ov5647_support.stl" />
         </geometry>
         </visual>
 
@@ -30,7 +30,7 @@
     <joint name="${prefix}_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link="${parent}"/>
-        <child link="${prefix}_link"/>
+        <child link="${prefix}link"/>
     </joint>
 
   </xacro:macro>
