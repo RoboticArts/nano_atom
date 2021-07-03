@@ -17,7 +17,7 @@
     <!-- Robot RVIZ -->
     <arg name="launch_rviz" default="$(optenv ROBOT_RUN_RVIZ true)" />
 
-    <!-- Robot accesories -->
+    <!-- Robot accessories -->
     <arg name="use_front_laser"  default="$(optenv ROBOT_FRONT_LASER true)"  />
     <arg name="use_front_camera" default="$(optenv ROBOT_FRONT_CAMERA true)" />
     <arg name="use_imu"          default="$(optenv ROBOT_IMU true)"          />
@@ -32,7 +32,7 @@
     <arg name="launch_localization" default="false" />
     <arg name="launch_amcl"         default="true"  /> 
     <arg name="launch_mapping"      default="false" />
-    <arg name="map_file"            default="nano_city_map/nano_city_map.yaml" />
+    <arg name="map_file"            default="nano_city_map/nano_city.yaml" />
 
     <!-- Robot teleop -->
     <arg name="launch_teleop"   default="false" />
@@ -52,7 +52,7 @@
         <arg name="robot_id" value="$(arg robot_id)" />
         <arg name="prefix"   value="$(arg prefix)"   />
 
-        <!-- Robot accesories -->
+        <!-- Robot accessories -->
         <arg name="use_front_laser"  value="$(arg use_front_laser)"  />
         <arg name="use_front_camera" value="$(arg use_front_camera)" />
         <arg name="use_imu"          value="$(arg use_imu)"          />
@@ -86,7 +86,7 @@
 
     <include file="$(find nano_atom_reality)/launch/nano_atom_hardware.launch">
     
-        <!-- Robot accesories -->
+        <!-- Robot accessories -->
         <arg name="use_front_laser"  value="$(arg use_front_laser)"  />
         <arg name="use_front_camera" value="$(arg use_front_camera)" />
         <arg name="use_imu"          value="$(arg use_imu)"          />
