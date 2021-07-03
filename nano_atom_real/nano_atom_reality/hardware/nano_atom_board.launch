@@ -6,8 +6,8 @@
     <arg name="prefix"   default="$(arg robot_id)_" />
 
     <!-- Serial communication -->
-    <arg name="serial_port" default="/dev/ttyUSB0" />
-    <arg name="baudrate"    default="115200"       />
+    <arg name="port"     default="/dev/ttyUSB0" />
+    <arg name="baudrate" default="115200"       />
 
     <!-- Motor drivers -->
     <arg name="motor_frame_id"       default="$(arg prefix)base_link"        />
@@ -31,6 +31,10 @@
     <!-- Start nano atom board-->
     <node pkg="nano_atom_driver" type="nano_driver_node" name="nano_driver" output="screen">
 
+        <!-- Serial port -->
+        <param name="port"     value="$(arg port)"     />
+        <param name="baudrate" value="$(arg baudrate)" />
+
         <!-- Motor -->
         <param name="motor_frame_id"       value="$(arg motor_frame_id)"       />
         <param name="motor_setpoint_topic" value="$(arg motor_setpoint_topic)" />
@@ -49,14 +53,5 @@
         <param name="use_imu"  value="$(arg use_imu)"  />
     
     </node>
-
-
-
-    <!-- Start rosserial -->
-    <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
-        <param name="port" value="$(arg serial_port)" />
-        <param name="baud" value="$(arg baudrate)"    />
-    </node>
-
 
 </launch>
