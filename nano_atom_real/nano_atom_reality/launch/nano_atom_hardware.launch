@@ -7,7 +7,7 @@
     <arg name="robot_id"        default="robot"            />
     <arg name="prefix"          default="$(arg robot_id)_" />
 
-    <!-- Robot accesories -->
+    <!-- Robot accessories -->
     <arg name="use_front_laser"  default="false" />
     <arg name="use_front_camera" default="false" />
     <arg name="use_imu"          default="false" />
