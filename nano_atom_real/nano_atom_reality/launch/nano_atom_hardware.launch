@@ -30,7 +30,7 @@
 
         <!-- Start nano atom board: motors, imu and leds -->
         <include file="$(find nano_atom_reality)/hardware/nano_atom_board.launch">
-            <arg name="serial_port" value="$(arg nano_board_dev)" />
+            <arg name="port"        value="$(arg nano_board_dev)"      />
             <arg name="robot_id"    value="$(arg robot_id)"            />
             <arg name="prefix"      value="$(arg prefix)"              /> 
             <arg name="use_leds"    value="$(arg use_leds)"            />
