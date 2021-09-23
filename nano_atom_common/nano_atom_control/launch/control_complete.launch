@@ -25,8 +25,8 @@
         <arg unless="$(arg use_imu)" name ="enable_odom_tf" default = "true" />
 
         <!-- Multiple to compensate for wheel slip, it depends on the surface of the robot--> 
-        <arg if="$(arg use_sim)" name="wheel_separation_multiplier" default="1.195" />
-        <arg unless="$(arg use_sim)" name ="wheel_separation_multiplier" default = "1.195" />
+        <arg if="$(arg use_sim)" name="wheel_separation_multiplier" default="1.0" />
+        <arg unless="$(arg use_sim)" name ="wheel_separation_multiplier" default = "1.0" />
 
         <!-- Load joint nano_atom controller configurations from YAML file to parameter server -->
         <rosparam file="$(find nano_atom_control)/config/diff_control.yaml" command="load" subst_value="True"/>
