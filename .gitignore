@@ -1,0 +1,5 @@
+# Visual Studio Code files
+.vscode
+
+# PyCache
+*.pyc
