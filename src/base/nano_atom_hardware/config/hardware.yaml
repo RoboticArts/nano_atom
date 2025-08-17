@@ -1,0 +1,6 @@
+left_wheel_joint: robot_left_wheel_joint
+right_wheel_joint: robot_right_wheel_joint
+port: /dev/ttyUSB_NANO_ATOM
+baudrate: "115200"
+timeout: "1000"
+resolution: "585"
