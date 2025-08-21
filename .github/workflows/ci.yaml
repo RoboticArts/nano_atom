@@ -1,0 +1,65 @@
+---
+name: CI
+on:
+  push:
+    branches:
+      - '*jazzy*' # Trigger when branch contains 'jazzy'
+    tags:
+      - 'jazzy-*' # Trigger when tag starts with 'jazzy-'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-pipeline:
+
+    name: Run CI pipeline
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
+
+    steps:
+
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH }}
+          submodules: 'recursive'
+          token: ${{ secrets.CICD_OATH }}
+          fetch-depth: 0
+
+      - name: Setup
+        shell: bash
+        run: |
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          else
+            echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          fi
+
+      - name: Preflight 
+        run: |
+        
+          echo "Repo: $REPO"
+          echo "Version: $VERSION"
+
+          ./scripts/ci/ci-cli.sh --version "$VERSION" --command preflight
+
+      - name: Validation
+        run: |
+          ./scripts/ci/ci-cli.sh --version "$VERSION" --command validate
+
+      - name: Build
+        run: |
+          ./scripts/ci/ci-cli.sh --version "$VERSION" --command build
+          
+      - name: Test
+        run: |
+          ./scripts/ci/ci-cli.sh --version "$VERSION" --command test
+
+      - name: Upload
+        if: startsWith(github.ref, 'refs/tags/') # Only when a tag is pushed
+        run: |
+          ./scripts/ci/ci-cli.sh --version "$VERSION" --command upload
