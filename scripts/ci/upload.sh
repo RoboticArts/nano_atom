@@ -14,11 +14,12 @@ fi
 
 image_reference="$1"
 
-if [[ -n "${CI_DOCKERHUB_TOKEN:-}" && -n "${CI_DOCKERHUB_USER:-}" ]]; then
-    echo "Using CI_DOCKERHUB_TOKEN and CI_DOCKERHUB_USER from environment."
-    echo "$CI_DOCKERHUB_TOKEN" | docker login -u "$CI_DOCKERHUB_USER" --password-stdin
+if [[ -n "${DOCKERHUB_TOKEN:-}" && -n "${DOCKERHUB_USER:-}" ]]; then
+    echo "Using DOCKERHUB_TOKEN and DOCKERHUB_USER from environment."
+    echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
 else
   # Prompt the user without echoing
+    echo "DOCKERHUB_TOKEN and DOCKERHUB_USER environment variables not defined."
     read -p "DockerHub Username: " DOCKERHUB_USER
     read -s -p "DockerHub Token/Password: " DOCKERHUB_TOKEN
     echo

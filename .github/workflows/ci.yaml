@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BRANCH: ${{ github.ref_name }}
-      CI_DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
-      CI_DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKERHUB_USER: ${{ secrets.CI_DOCKERHUB_USER }}
+      DOCKERHUB_TOKEN: ${{ secrets.CI_DOCKERHUB_TOKEN }}
 
     steps:
 
