@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - '*jazzy*' # Trigger when branch contains 'jazzy'
+      - '**jazzy**' # Trigger when branch contains 'jazzy'
     tags:
       - 'jazzy-*' # Trigger when tag starts with 'jazzy-'
 
@@ -26,7 +26,6 @@ jobs:
         with:
           ref: ${{ env.BRANCH }}
           submodules: 'recursive'
-          token: ${{ secrets.CICD_OATH }}
           fetch-depth: 0
 
       - name: Setup
