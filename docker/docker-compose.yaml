@@ -1,9 +1,6 @@
 services:
   nano-atom:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    image: roboticarts/nano-atom:dev
+    image: roboticarts/nano-atom:dev # jazzy-latest
     network_mode: host
     tty: true
     stdin_open: true
@@ -13,7 +10,6 @@ services:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
     volumes:
-      - ../:/home/robot/ros2_ws/src/nano_atom:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: >
       bash -i -c "

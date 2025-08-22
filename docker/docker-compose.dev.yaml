@@ -1,0 +1,15 @@
+services:
+  nano-atom:
+    extends:
+      file: docker-compose.yaml
+      service: nano-atom
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../:/home/robot/ros2_ws/src/nano_atom:rw
+    command: >
+      bash -i -c "
+        source install/setup.bash
+        bash
+      "
