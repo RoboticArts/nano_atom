@@ -14,5 +14,5 @@ services:
     command: >
       bash -i -c "
         source install/setup.bash &&
-        ros2 launch nano_atom_base base.launch.py
+        ros2 launch nano_atom_base base.launch.py run_rviz:=true
       "

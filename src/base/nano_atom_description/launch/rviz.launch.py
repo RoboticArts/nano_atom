@@ -17,20 +17,17 @@
 #
 # Author: Robert Vasquez Zavaleta
 
+from launch_ros.actions import Node
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch_ros.actions import PushRosNamespace
 from launch.actions import GroupAction
-from launch.conditions import IfCondition
 
 def generate_launch_description():
 
     rviz_config_path = PathJoinSubstitution([
-        FindPackageShare('nano_atom_base'),
-        'config/rviz_config'
+        FindPackageShare('nano_atom_description'),
+        'config/rviz.rviz'
     ])
 
     rviz = Node(
@@ -40,3 +37,9 @@ def generate_launch_description():
         output='screen',
         arguments=['-d', rviz_config_path]
     )
+
+    group = GroupAction([
+        rviz
+    ])
+
+    return LaunchDescription([group])
