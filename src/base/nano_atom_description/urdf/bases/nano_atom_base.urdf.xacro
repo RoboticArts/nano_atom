@@ -36,6 +36,9 @@
         <geometry>
           <mesh filename="package://nano_atom_description/meshes/bases/nano_atom_chassis.stl" />
         </geometry>
+        <material name="red">
+          <color rgba="1.0 0.0 0.0 1.0"/>
+        </material>
       </visual>
 
       <collision>

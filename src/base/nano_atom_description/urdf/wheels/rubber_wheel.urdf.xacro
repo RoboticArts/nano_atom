@@ -84,6 +84,9 @@
         <geometry>
           <xacro:mesh_selector wheel = "${type}"  extension = ".stl" />
         </geometry>
+        <material name="dark_gray">
+          <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>
       </visual>
 
       <collision>

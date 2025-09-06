@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot name="sensor_ydlidar_x2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- - - - - - - - - - - - - - RPLIDAR SENSOR - - - - - - - - - - - - - -->
+
+  <xacro:macro name ="sensor_ydlidar_x2" params="prefix prefix_topic:='front_laser/scan' use_sim gpu_sim='false' parent *origin">
+
+    <link name="${prefix}link">
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://nano_atom_description/meshes/devices/ydlidar_x2.stl"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://nano_atom_description/meshes/devices/ydlidar_x2.stl"/>
+        </geometry>
+        <material name="dark_blue">
+          <color rgba="0.0 0.0 0.45 1.0"/>
+        </material>
+      </visual>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+
+    </link>
+
+    <joint name="${prefix}joint" type="fixed">
+      <axis xyz="0 1 0" />
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${prefix}link"/>
+    </joint>
+
+		<!-- ydlidar x2 sensor for simulation -->
+    <xacro:if value="${use_sim}">
+      <xacro:sensor_ydlidar_x2_gazebo prefix="${prefix}" prefix_topic="${prefix_topic}" gpu_sim="${gpu_sim}"/>
+    </xacro:if>
+
+  </xacro:macro>
+
+
+<!-- - - - - - - - - - - - - - YDLIDAR GAZEBO - - - - - - - - - - - - - -->
+
+<xacro:macro name="sensor_ydlidar_x2_gazebo" params="prefix prefix_topic gpu_sim:=false">
+
+  <xacro:if value="${gpu_sim}">
+    <xacro:property name="ray_type" value="gpu_lidar"/>
+  </xacro:if>
+
+  <xacro:unless value="${gpu_sim}">
+    <xacro:property name="ray_type" value="gpu_lidar"/> <!-- lidar -->
+  </xacro:unless>
+
+  <gazebo reference="${prefix}link">
+    <sensor name="${prefix}sensor" type="${ray_type}">
+      <pose>0 0 0 0 0 0</pose>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
+      <topic>${prefix_topic}</topic>
+      <!-- Hack to set frame id for gazebo ros2 bridge. Ignore SDF warning -->
+      <gz_frame_id>${prefix}link</gz_frame_id>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>0.9</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1</resolution>
+            <min_angle>0.0</min_angle>
+            <max_angle>0.0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>6.0</max>
+          <resolution>0.02</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+
+    </sensor>
+  </gazebo>
+  
+</xacro:macro>
+
+</robot>

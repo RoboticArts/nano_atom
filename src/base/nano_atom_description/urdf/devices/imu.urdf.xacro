@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="sensor_imu" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- - - - - - - - - - - - - - IMU SENSOR - - - - - - - - - - - - - -->
+
+  <xacro:macro name ="sensor_imu" params="prefix prefix_topic:='imu/data' parent use_sim *origin">
+
+    <link name="${prefix}link"/>
+
+    <joint name="${prefix}joint" type="fixed">
+        <axis xyz="0 1 0" />
+        <xacro:insert_block name="origin" />
+        <parent link="${parent}"/>
+        <child link="${prefix}link"/>
+    </joint>
+
+    <!-- IMU sensor for simulation -->
+    <xacro:if value="${use_sim}">
+      <xacro:sensor_imu_gazebo prefix="${prefix}" prefix_topic="${prefix_topic}"/>
+    </xacro:if>
+
+  </xacro:macro>
+
+<!-- - - - - - - - - - - - - - IMU GAZEBO - - - - - - - - - - - - - -->
+
+  <xacro:macro name="sensor_imu_gazebo" params="prefix prefix_topic">
+
+    <gazebo reference="robot/imu_link">  
+      <sensor name="${prefix}sensor" type="imu">
+        <pose>0 0 0 0 0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <topic>${prefix_topic}</topic>
+        <!-- Hack to set frame id for gazebo ros2 bridge. Ignore SDF warning -->
+        <gz_frame_id>${prefix}link</gz_frame_id>
+        <imu>
+          <angular_velocity>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></z>
+          </linear_acceleration>
+          <orientation_enabled>true</orientation_enabled>
+          <angular_velocity_enabled>true</angular_velocity_enabled>
+          <linear_acceleration_enabled>true</linear_acceleration_enabled>
+        </imu>
+      </sensor>
+
+  </gazebo>
+
+  </xacro:macro>
+
+
+</robot>

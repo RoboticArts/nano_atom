@@ -55,6 +55,10 @@ def generate_launch_description():
             'controller_sim_path:=', controller_sim_path,
             ' ',
             'hardware_path:=', hardware_path,
+            ' ',
+            'use_front_laser:=true',
+            ' ',
+            'use_imu:=true'
         ]
     )
 

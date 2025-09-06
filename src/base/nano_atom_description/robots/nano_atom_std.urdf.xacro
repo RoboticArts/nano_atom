@@ -5,7 +5,7 @@
 <!-- - - - - - - - - - - - - - GLOBAL ARGUMENTS - - - - - - - - - - - - - -->
 
   <xacro:arg name="robot_id"            default="robot" />
-  <xacro:arg name="prefix"              default="$(arg robot_id)_" />
+  <xacro:arg name="prefix"              default="$(arg robot_id)/" />
   <xacro:arg name="controller_sim_path" default="$(find ${nano_atom_control})/config/diff_controller.yaml" />
   <xacro:arg name="hardware_path"       default="$(find ${nano_atom_hardware})/config/hardware.yaml" />
   <xacro:arg name="use_front_laser"     default="false" />
@@ -35,15 +35,14 @@
   <xacro:include filename="$(find nano_atom_description)/urdf/accessories/ov5647_support.urdf.xacro" />
 
 
-  <!-- Import nano_atom sensors: ydlidar x2 
-  <xacro:include filename="$(find roboticarts_sensors)/urdf/ydlidar_x2.urdf.xacro" />
-  -->
+  <!-- Import nano_atom sensors: ydlidar x2 -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/devices/ydlidar_x2.urdf.xacro" />
+
   <!-- Import nano_atom sensors: ov5647 camera 
-  <xacro:include filename="$(find roboticarts_sensors)/urdf/ov5647.urdf.xacro" />
+  <xacro:include filename="$(find nano_atom_description)/urdf/devices/ov5647.urdf.xacro" />
   -->
-  <!-- Import nano_atom sensors: imu sensor
-  <xacro:include filename="$(find roboticarts_sensors)/urdf/imu.urdf.xacro" />
-  -->
+  <!-- Import nano_atom sensors: imu sensor -->
+  <xacro:include filename="$(find nano_atom_description)/urdf/devices/imu.urdf.xacro" />
 
   <!-- Import nano_atom control -->
   <xacro:include filename="$(find nano_atom_description)/urdf/controllers/diff.ros2_control.urdf.xacro" />
@@ -116,7 +115,7 @@
 <!-- - - - - - - - - - - - - - ACCESSORIES DEFINITION  - - - - - - - - - - - - - -->
  
 
-  <!-- ydlidar x2 lidar sensor
+  <!-- ydlidar x2 lidar sensor -->
   <xacro:if value="$(arg use_front_laser)">
 
     <xacro:sensor_ydlidar_x2 prefix="$(arg prefix)front_laser_" parent="$(arg base_frame)" prefix_topic="front_laser/scan" use_sim="$(arg use_sim)"
@@ -126,9 +125,8 @@
     </xacro:sensor_ydlidar_x2>
 
   </xacro:if>
--->
 
-  <!-- IMU Sensor 
+  <!-- IMU Sensor -->
   <xacro:if value="$(arg use_imu)">
 
     <xacro:sensor_imu prefix="$(arg prefix)imu_" parent ="$(arg base_frame)" prefix_topic="imu/data" use_sim="$(arg use_sim)" >
@@ -136,7 +134,7 @@
     </xacro:sensor_imu>
 
   </xacro:if>
-  -->
+  
 
   <!-- Front Camera 
   <xacro:if value="$(arg use_front_camera)">
