@@ -19,10 +19,6 @@ Run Nano Atom:
 docker compose up
 ```
 
-Control it!
-```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/robot/robot_base_controller/cmd_vel -p stamped:=true
-```
 
 ## 2. Installation
 
@@ -46,7 +42,7 @@ Install dependencies:
 
 ```
 cd ~/ros2_ws
-rosdep update && rosdep install --from-paths src --ignore-src -y -r --rosdistro 
+rosdep update && rosdep install --from-paths src --ignore-src -y -r --rosdistro jazzy
 ```
 
 Build the repository:
@@ -75,6 +71,7 @@ Go to the repository root directory:
 cd ~/ros2_ws/src/nano_atom
 ```
 
+
 ### Option 1. ROS2 launch
 
 Run `nano_atom` packages:
@@ -89,6 +86,12 @@ Run `nano atom` containers:
 
 ```
 docker compose -f docker/docker-compose.yaml up
+```
+
+### 3.2 Control it!
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/robot/robot_base_controller/cmd_vel -p stamped:=true
 ```
 
 ## 5. Development
