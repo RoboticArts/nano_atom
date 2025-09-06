@@ -12,13 +12,13 @@
 
   joint_state_broadcaster:
     ros__parameters:
-      use_local_topics: true
+      use_local_topics: false
 
   robot_base_controller:
     ros__parameters:
 
-      left_wheel_names: ["robot_left_wheel_joint"]
-      right_wheel_names: ["robot_right_wheel_joint"]
+      left_wheel_names: ["robot/left_wheel_joint"]
+      right_wheel_names: ["robot/right_wheel_joint"]
 
       wheel_separation: 0.09038
       #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
@@ -29,8 +29,8 @@
       right_wheel_radius_multiplier: 1.0
 
       publish_rate: 50.0
-      odom_frame_id: robot_odom
-      base_frame_id: robot_base_link
+      odom_frame_id: odom
+      base_frame_id: base_footprint
       pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
       twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 

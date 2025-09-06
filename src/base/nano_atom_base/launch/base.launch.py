@@ -78,14 +78,23 @@ def generate_launch_description():
         )
     )
 
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "run_rviz",
+            default_value="false",
+            description="Run Rviz gui"
+        )
+    )
+
     robot_id = LaunchConfiguration("robot_id")
     robot_xacro = LaunchConfiguration("robot_xacro")
     use_sim = LaunchConfiguration("use_sim")
     initial_pose_x = LaunchConfiguration("initial_pose_x")
     initial_pose_y = LaunchConfiguration("initial_pose_y")
     initial_pose_a = LaunchConfiguration("initial_pose_a") 
+    run_rviz = LaunchConfiguration("run_rviz")
 
-    robot_prefix = PythonExpression(["'", robot_id, "_'"])
+    robot_prefix = PythonExpression(["'", robot_id, "/'"])
 
     # Set the controllers configuration for ros2_controller
     # use_sim = false -> Controller package  -> node -> Load config in controller_manager
@@ -149,12 +158,21 @@ def generate_launch_description():
         condition=IfCondition(use_sim)
     )
 
+    rviz = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('nano_atom_description'), 'launch/rviz.launch.py'
+            ])
+        ),
+        condition=IfCondition(run_rviz)
+    )
 
     group = GroupAction([
         PushRosNamespace(LaunchConfiguration('robot_id')),
         description,
         control,
-        simulation
+        simulation,
+        rviz
     ])
 
     return LaunchDescription(declared_arguments + [group])
