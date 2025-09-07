@@ -2,15 +2,20 @@
 
 
 # Meet Nano Atom!
+<p align="center">
+<img src="docs/img/nano-atom-logo.png" alt="alt text" width="800"/>
+</p>
 
 Nano Atom is an open source mobile robot designed to emulate industrial ROS robots for universities preparing students for future robotics careers. 
-
-<!-- [TITLE: LOGO + NANO ATOM] -->
 
 <!-- [REAL NANO ATOM: WELDING STATION + NANO ATOM] -->
 
 ## 1. Quick start
 *Requirements: Linux, Docker and X11*
+
+<p align="center">
+<img src="docs/img/nano-atom-sim.png" alt="alt text" width="800"/>
+</p>
 
 Get the docker compose file:
 
@@ -29,8 +34,6 @@ Run Nano Atom:
 ```
 docker compose up
 ```
-
-<!-- [GZ SIM + RVIZ GIF] -->
 
 Install CycloneDDS:
 
