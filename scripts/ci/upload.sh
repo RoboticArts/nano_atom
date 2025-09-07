@@ -26,4 +26,16 @@ else
     echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
 fi
 
-docker push ${image_reference}
+repository="${image_reference%%:*}"   # roboticarts/nano-atom
+version="${image_reference#*:}"       # prefix-1.0.0
+
+# version="prefix-1.0.0"  → prefix
+# version="1.0.0"        → ""
+if [[ "$version" =~ ^([a-zA-Z]+)[^0-9]*[0-9] ]]; then 
+  prefix="${BASH_REMATCH[1]}-"
+fi
+
+docker tag ${image_reference} ${repository}:${prefix}latest
+
+docker push ${image_reference}             # roboticarts/nano-atom:prefix-1.0.0
+docker push ${repository}:${prefix}latest  # roboticarts/nano-atom:prefix-latest
