@@ -14,6 +14,11 @@ RUN apt-get update && apt-get install -y \
     git curl build-essential \
     && rm -rf /var/lib/apt/lists/*
 
+# Install CycloneDDS
+RUN apt-get update && apt-get install -y \
+    ros-${ROBOT_DISTRO}-rmw-cyclonedds-cpp && \
+    rm -rf /var/lib/apt/lists/*    
+
 # Install Gazebo
 RUN apt-get update && apt-get install -y curl lsb-release gnupg
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \

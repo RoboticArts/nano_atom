@@ -5,12 +5,23 @@
 
 Nano Atom is an open source mobile robot designed to emulate industrial ROS robots for universities preparing students for future robotics careers. 
 
+<!-- [TITLE: LOGO + NANO ATOM] -->
+
+<!-- [REAL NANO ATOM: WELDING STATION + NANO ATOM] -->
+
 ## 1. Quick start
+*Requirements: Linux, Docker and X11*
 
 Get the docker compose file:
 
 ```
 wget https://raw.githubusercontent.com/RoboticArts/nano_atom/refs/heads/jazzy-devel/docker/docker-compose.yaml
+```
+
+Enable GUI access for Docker:
+
+```
+xhost +local:root
 ```
 
 Run Nano Atom:
@@ -19,6 +30,25 @@ Run Nano Atom:
 docker compose up
 ```
 
+<!-- [GZ SIM + RVIZ GIF] -->
+
+Install CycloneDDS:
+
+```
+sudo apt-get update && sudo apt-get install ros-jazzy-rmw-cyclonedds-cpp
+```
+
+Set CycloneDDS:
+
+```
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+```
+
+Run teleop node:
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/robot/robot_base_controller/cmd_vel -p stamped:=true
+```
 
 ## 2. Installation
 
@@ -57,11 +87,13 @@ source install/setup.bash
 Build the docker image:
 
 ```
-cd ~/ros2_ws
-sudo docker build -t nano-atom:dev -f docker/Dockerfile .
+cd ~/ros2_ws/src/nano_atom
+docker compose -f docker/docker-compose.build.yaml build
 ```
 
-## 3. Usage
+<!-- docker build -t nano-atom:build -f docker/Dockerfile . --> 
+
+## 3. Bringup
 
 ### 3.1. Setup
 
@@ -85,13 +117,7 @@ ros2 launch nano_atom_base base.launch.py
 Run `nano atom` containers:
 
 ```
-docker compose -f docker/docker-compose.yaml up
-```
-
-### 3.2 Control it!
-
-```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/robot/robot_base_controller/cmd_vel -p stamped:=true
+docker compose -f docker/docker-compose.build.yaml up
 ```
 
 ## 5. Development

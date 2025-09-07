@@ -1,16 +1,19 @@
 services:
   nano-atom:
-    image: roboticarts/nano-atom:dev # jazzy-latest
+    image: roboticarts/nano-atom:jazzy-latest
     network_mode: host
     tty: true
     stdin_open: true
     environment:
       - ROS_DOMAIN_ID=0
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+      - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri 
     command: >
       bash -i -c "
         source install/setup.bash &&

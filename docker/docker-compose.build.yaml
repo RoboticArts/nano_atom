@@ -1,0 +1,9 @@
+services:
+  nano-atom:
+    extends:
+      file: docker-compose.yaml
+      service: nano-atom
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: nano-atom:build
