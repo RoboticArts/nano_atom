@@ -33,10 +33,22 @@ def generate_launch_description():
     initial_pose_y = LaunchConfiguration("initial_pose_y")
     initial_pose_a = LaunchConfiguration("initial_pose_a")            
 
-    gazebo_simulation = IncludeLaunchDescription(
+    spawn_gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('nano_atom_simulation'), 'launch/gazebo/gazebo_simulation.launch.py'
+                 FindPackageShare('nano_atom_gz_sim'), 'launch/spawn_world.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
+        }.items(),
+    )
+
+    spawn_gazebo_robot = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('nano_atom_gz_sim'), 'launch/spawn_robot.launch.py'
             ])
         ),
         launch_arguments={
@@ -50,7 +62,8 @@ def generate_launch_description():
     )
 
     group = GroupAction([
-        gazebo_simulation
+        spawn_gazebo_world,
+        spawn_gazebo_robot
     ])
 
     return LaunchDescription([group])

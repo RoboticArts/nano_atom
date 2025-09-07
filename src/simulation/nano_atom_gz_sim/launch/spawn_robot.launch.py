@@ -47,8 +47,8 @@ def generate_launch_description():
     )
 
     bridge_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_simulation'),
-        'config/gazebo/bridge.yaml'
+        FindPackageShare('nano_atom_gz_sim'),
+        'config/bridge.yaml'
     ])
 
     gazebo_bridge = Node(

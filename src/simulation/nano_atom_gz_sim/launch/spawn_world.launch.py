@@ -20,50 +20,43 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch.actions import GroupAction
 
 def generate_launch_description():
 
-    robot_id = LaunchConfiguration("robot_id")
-    robot_prefix = LaunchConfiguration("robot_prefix")
-    robot_name = LaunchConfiguration("robot_name", default="nano_atom")
-    initial_pose_x = LaunchConfiguration("initial_pose_x")
-    initial_pose_y = LaunchConfiguration("initial_pose_y")
-    initial_pose_a = LaunchConfiguration("initial_pose_a")            
+    world_path = PathJoinSubstitution([
+        FindPackageShare('nano_atom_gz_sim'),
+        'worlds/empty.world'
+    ])
 
-    spawn_gazebo_world = IncludeLaunchDescription(
+    gazebo_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('nano_atom_simulation'), 'launch/gazebo/gazebo_spawn_world.launch.py'
+                FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'
             ])
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'robot_prefix': robot_prefix,
+            'gz_args': ['-r ', '-s ',  world_path],
+            'on_exit_shutdown': 'true'
         }.items(),
     )
 
-    spawn_gazebo_robot = IncludeLaunchDescription(
+    gazebo_client = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('nano_atom_simulation'), 'launch/gazebo/gazebo_spawn_robot.launch.py'
+                FindPackageShare('ros_gz_sim'), 'launch/gz_sim.launch.py'
             ])
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'robot_prefix': robot_prefix,
-            'robot_name': robot_name,
-            'initial_pose_x': initial_pose_x,
-            'initial_pose_y': initial_pose_y,
-            'initial_pose_a': initial_pose_a,
+            'gz_args': ['-g'],
+            'on_exit_shutdown': 'true'
         }.items(),
     )
 
     group = GroupAction([
-        spawn_gazebo_world,
-        spawn_gazebo_robot
+        gazebo_server,
+        gazebo_client,
     ])
 
     return LaunchDescription([group])

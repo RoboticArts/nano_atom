@@ -145,7 +145,7 @@ def generate_launch_description():
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('nano_atom_simulation'), 'launch/simulation.launch.py'
+                 FindPackageShare('nano_atom_gz_sim'), 'launch/simulation.launch.py'
             ])
         ),
         launch_arguments={
