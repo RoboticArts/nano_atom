@@ -18,11 +18,8 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://nano_atom_description/meshes/devices/ydlidar_x2.stl"/>
+          <mesh filename="package://nano_atom_description/meshes/devices/ydlidar_x2.dae"/>
         </geometry>
-        <material name="dark_blue">
-          <color rgba="0.0 0.0 0.45 1.0"/>
-        </material>
       </visual>
 
       <inertial>

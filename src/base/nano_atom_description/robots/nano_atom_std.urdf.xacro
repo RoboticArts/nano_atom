@@ -100,7 +100,7 @@
   <!-- Caster parameters -->
 	<xacro:property name="caster_offset_x" value="0.04746" />   
 	<xacro:property name="caster_offset_y" value="0.0" />
-	<xacro:property name="caster_offset_z" value="0.01075" />
+	<xacro:property name="caster_offset_z" value="0.0025" />
 
   <xacro:caster_wheel prefix="$(arg prefix)front_" parent ="$(arg base_frame)">
   	<origin xyz="+${caster_offset_x} +${caster_offset_y} -${caster_offset_z}" rpy="0 0 0"/>
@@ -121,7 +121,7 @@
     <xacro:sensor_ydlidar_x2 prefix="$(arg prefix)front_laser_" parent="$(arg base_frame)" prefix_topic="front_laser/scan" use_sim="$(arg use_sim)"
                              gpu_sim="$(arg gpu_laser_sim)" >
 
-      <origin xyz="0 0 0.08538" rpy="0 0 0"/> 
+      <origin xyz="0 0 0.09038" rpy="0 0 0"/>
     </xacro:sensor_ydlidar_x2>
 
   </xacro:if>

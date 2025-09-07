@@ -82,11 +82,8 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <xacro:mesh_selector wheel = "${type}"  extension = ".stl" />
+          <xacro:mesh_selector wheel = "${type}"  extension = ".dae" />
         </geometry>
-        <material name="dark_gray">
-          <color rgba="0.2 0.2 0.2 1.0"/>
-        </material>
       </visual>
 
       <collision>
