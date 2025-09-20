@@ -14,7 +14,7 @@
         <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-            <mesh filename="package://nano_atom_description/meshes/accessories/ov5647_support.stl" />
+            <mesh filename="package://nano_atom_description/meshes/accessories/ov5647_support.dae" />
         </geometry>
         </visual>
 

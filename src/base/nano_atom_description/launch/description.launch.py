@@ -59,6 +59,8 @@ def generate_launch_description():
             'use_front_laser:=true',
             ' ',
             'use_imu:=true'
+            ' ',
+            'use_front_camera:=false',
         ]
     )
 
