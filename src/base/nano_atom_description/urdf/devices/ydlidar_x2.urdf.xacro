@@ -4,7 +4,7 @@
 
 <!-- - - - - - - - - - - - - - RPLIDAR SENSOR - - - - - - - - - - - - - -->
 
-  <xacro:macro name ="sensor_ydlidar_x2" params="prefix prefix_topic:='front_laser/scan' use_sim gpu_sim='false' parent *origin">
+  <xacro:macro name ="sensor_ydlidar_x2" params="prefix prefix_topic:='front_laser/scan' use_sim gpu_sim='true' parent *origin">
 
     <link name="${prefix}link">
 
@@ -47,14 +47,15 @@
 
 <!-- - - - - - - - - - - - - - YDLIDAR GAZEBO - - - - - - - - - - - - - -->
 
-<xacro:macro name="sensor_ydlidar_x2_gazebo" params="prefix prefix_topic gpu_sim:=false">
+<xacro:macro name="sensor_ydlidar_x2_gazebo" params="prefix prefix_topic gpu_sim:=true">
 
   <xacro:if value="${gpu_sim}">
     <xacro:property name="ray_type" value="gpu_lidar"/>
   </xacro:if>
 
   <xacro:unless value="${gpu_sim}">
-    <xacro:property name="ray_type" value="gpu_lidar"/> <!-- lidar -->
+    <!-- CPU lidar not supported by gz sim yet. 'lidar'  -->
+    <xacro:property name="ray_type" value="gpu_lidar"/>
   </xacro:unless>
 
   <gazebo reference="${prefix}link">
@@ -68,8 +69,8 @@
       <lidar>
         <scan>
           <horizontal>
-            <samples>360</samples>
-            <resolution>0.9</resolution>
+            <samples>400</samples>
+            <resolution>1</resolution>
             <min_angle>-3.14159</min_angle>
             <max_angle>3.14159</max_angle>
           </horizontal>
@@ -81,14 +82,14 @@
           </vertical>
         </scan>
         <range>
-          <min>0.15</min>
-          <max>6.0</max>
-          <resolution>0.02</resolution>
+          <min>0.12</min>
+          <max>8.0</max>
+          <resolution>0.01</resolution>
         </range>
         <noise>
           <type>gaussian</type>
           <mean>0.0</mean>
-          <stddev>0.01</stddev>
+          <stddev>0.02</stddev>
         </noise>
       </lidar>
 
