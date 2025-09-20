@@ -29,20 +29,20 @@
       <sensor name="${prefix}sensor" type="imu">
         <pose>0 0 0 0 0 0</pose>
         <always_on>true</always_on>
-        <update_rate>10</update_rate>
+        <update_rate>100</update_rate>
         <topic>${prefix_topic}</topic>
         <!-- Hack to set frame id for gazebo ros2 bridge. Ignore SDF warning -->
         <gz_frame_id>${prefix}link</gz_frame_id>
         <imu>
           <angular_velocity>
-            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></x>
-            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></y>
-            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></z>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.00099</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.00099</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.00099</stddev></noise></z>
           </angular_velocity>
           <linear_acceleration>
-            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></x>
-            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></y>
-            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0</stddev></noise></z>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0125</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0125</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0125</stddev></noise></z>
           </linear_acceleration>
           <orientation_enabled>true</orientation_enabled>
           <angular_velocity_enabled>true</angular_velocity_enabled>
