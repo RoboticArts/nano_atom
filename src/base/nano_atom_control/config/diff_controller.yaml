@@ -20,11 +20,10 @@
       left_wheel_names: ["robot/left_wheel_joint"]
       right_wheel_names: ["robot/right_wheel_joint"]
 
-      wheel_separation: 0.09038
-      #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-      wheel_radius: 0.0215
+      wheel_separation: 0.0898
+      wheel_radius: 0.021
 
-      wheel_separation_multiplier: 1.0
+      wheel_separation_multiplier: 1.18
       left_wheel_radius_multiplier: 1.0
       right_wheel_radius_multiplier: 1.0
 
