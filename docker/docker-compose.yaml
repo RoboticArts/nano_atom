@@ -1,5 +1,6 @@
 services:
   nano-atom:
+    container_name: nano-atom
     image: roboticarts/nano-atom:jazzy-latest
     network_mode: host
     tty: true
@@ -15,7 +16,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri 
     command: >
-      bash -i -c "
-        source install/setup.bash &&
         ros2 launch nano_atom_base base.launch.py run_rviz:=true
-      "
