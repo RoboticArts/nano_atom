@@ -7,14 +7,13 @@ set -euo pipefail
 trap 'echo -e "\n\033[1;31mInterrupted by user. Exiting.\033[0m"; pkill -P $$; exit 130' SIGINT
 
 # Run scripts form this script path
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(realpath "$(dirname "$0")")"
 pushd "$SCRIPT_DIR" > /dev/null
 
 show_help() {
     echo "Usage: $0 --version <version> [--command <command>]"
     echo
     echo "Required arguments:"
-    echo "  --repo      Name of the repository"
     echo "  --version   Version to use"
     echo
     echo "Optional arguments:"
@@ -25,8 +24,8 @@ show_help() {
 }
 
 # Initialize variables
-VERSION="" # SI VERSION NO ESTA DEFINIDA USAR COMMIT
-COMMAND="all"  # Default value
+VERSION=""
+COMMAND="all"
 
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
@@ -74,13 +73,13 @@ echo "Command: $COMMAND"
 
 preflight() {
 
-  echo "preflight: TO DO"
+  ./preflight.sh
 
 }
 
 validate() {
 
-  echo "validate: TO DO"
+  ./validate.sh
 
 }
 
@@ -92,7 +91,15 @@ build() {
 
 test() {
 
-  echo "test: TO DO"
+  IMAGE="roboticarts/nano-atom:${VERSION}"
+
+  if docker image inspect "$IMAGE" >/dev/null 2>&1; then
+    echo "Docker image found. Running tests on "$IMAGE" image"
+    docker run --rm "$IMAGE" ./src/nano_atom/scripts/ci/test.sh 
+  else
+    echo "Running tests locally"
+    ./test.sh
+  fi
 
 }
 
