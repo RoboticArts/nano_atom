@@ -42,6 +42,16 @@ Nano Atom packs the essential features of a ROS robot into a compact and afforda
 - **Power Supply:** 5 V, 5000 mAh (regulated output)
 - **Software:** ROS 2
 
+
+### 1.3 Electronic System
+
+See `hardware/electronics` for BOM and schematics.
+
+<p align="center">
+<img src="docs/img/electronic-system.png" alt="alt text" width="800"/>
+</p>
+
+
 ## 2. Quick start
 
 *Requirements: Linux/WSL2, Docker v2.x and X11*
@@ -53,24 +63,31 @@ Nano Atom packs the essential features of a ROS robot into a compact and afforda
 
 ### 2.1 Run Nano Atom
 
-Start Nano Atom:
+Get the docker compose file:
 
 ```
-wget https://raw.githubusercontent.com/RoboticArts/nano_atom/refs/heads/jazzy-devel/docker/docker-compose.yaml && \
-    xhost +local:root || true && \
-    docker compose up --pull always
+wget https://raw.githubusercontent.com/RoboticArts/nano_atom/refs/heads/jazzy-devel/docker/docker-compose.yaml
 ```
 
-Note: `xhost` temporarily enables GUI access in the current X11 session (Linux). You can revoke it anytime with `xhost -local:root`. Users on WSL2 can ignore it.
+Enable GUI access for Docker:
+
+```
+xhost +local:root
+```
+**Note**: `xhost` temporarily enables GUI access in the current X11 session (Linux). You can revoke it anytime with `xhost -local:root`. Users on WSL2 can ignore it.
+
+Run simulation:
+```
+docker compose up --pull alway
+```
 
 ### 2.2 Control Nano Atom
 
-Run teleop node:
+Open a new terminal and run teleop node:
 
 ```
 docker exec -it nano-atom bash -ic "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/robot/robot_base_controller/cmd_vel -p stamped:=true"
 ```
-
 
 ## 3. Installation
 
