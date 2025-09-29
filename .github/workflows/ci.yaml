@@ -51,7 +51,7 @@ jobs:
       - name: Validation
         run: |
 
-          sudo apt-get install -y licensecheck
+          sudo apt-get -qq install -y licensecheck
 
           ./scripts/ci/ci-cli.sh --version "$VERSION" --command validate
 
