@@ -50,6 +50,9 @@ jobs:
 
       - name: Validation
         run: |
+
+          sudo apt-get -qq install -y licensecheck > /dev/null 2>&1
+
           ./scripts/ci/ci-cli.sh --version "$VERSION" --command validate
 
       - name: Build
