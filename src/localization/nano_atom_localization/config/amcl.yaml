@@ -1,0 +1,53 @@
+/**:
+  ros__parameters:
+
+    # Interfaces
+    global_frame_id: "map"
+    base_frame_id: "robot/base_footprint"
+    odom_frame_id: "robot/odom"
+    scan_topic: "front_laser/scan"
+
+    # Motion model
+    alpha1: 0.1          # rotational error due to rotation
+    alpha2: 0.1          # rotational error due to translation
+    alpha3: 0.05         # translational error due to translation
+    alpha4: 0.05         # translational error due to rotation
+    alpha5: 0.1          # small lateral odometry error
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
+
+    # Measurement model
+    beam_skip_distance: 0.5
+    beam_skip_error_threshold: 0.9
+    beam_skip_threshold: 0.3
+    do_beamskip: false
+    lambda_short: 0.1
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 8.0
+    laser_min_range: -1.0
+    laser_model_type: "likelihood_field"
+    max_beams: 30
+    max_particles: 1500
+    min_particles: 200
+    pf_err: 0.05
+    pf_z: 0.99
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 1
+    save_pose_rate: 0.5
+    sigma_hit: 0.2
+    tf_broadcast: true
+    transform_tolerance: 1.0
+    update_min_a: 0.1
+    update_min_d: 0.05
+    z_hit: 0.5
+    z_max: 0.05
+    z_rand: 0.5
+    z_short: 0.05
+
+    # Initial Pose
+    set_initial_pose: True
+    initial_pose:
+      x: -0.83834
+      y: 0.00307387
+      z: 0.0
+      yaw: 0.221472
