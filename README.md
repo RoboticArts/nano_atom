@@ -78,7 +78,7 @@ xhost +local:root
 
 Run simulation:
 ```
-docker compose up --pull alway
+docker compose up --pull always
 ```
 
 ### 2.2 Control Nano Atom
