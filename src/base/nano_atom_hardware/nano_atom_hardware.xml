@@ -1,0 +1,9 @@
+<library path="nano_atom_hardware">
+
+  <class name="nano_atom_hardware/NanoAtomSystem" type="nano_atom_hardware::NanoAtomSystem" base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface for Nano Atom robot.
+    </description>
+  </class>
+
+</library>

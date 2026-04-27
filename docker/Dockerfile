@@ -50,6 +50,7 @@ COPY . ${ROBOT_WS}/src/nano_atom
 # Install dependencies
 RUN cd ${ROBOT_WS} && \
     sudo apt-get update && \
+    sudo apt-get install libserial-dev -y && \
     rosdep update && \
     rosdep install --from-paths src --ignore-src -y -r --rosdistro ${ROBOT_DISTRO} && \
     sudo rm -rf /var/lib/apt/lists/*
