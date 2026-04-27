@@ -72,9 +72,9 @@ class NanoAtomSystem : public hardware_interface::SystemInterface {
     
     struct Config {
       std::string serial_port;
-      std::string serial_baudrate;
-      std::string serial_timeout;
-      std::string resolution;
+      int serial_baudrate;
+      int serial_timeout;
+      int resolution;
       DiffDriveConfig diff_drive;
     };
 

@@ -17,30 +17,66 @@
 
 #include "nano_atom_hardware/nano_atom_driver.hpp"
 
-NanoAtomDriver::NanoAtomDriver(const std::string& serial_port, const std::string& serial_baudrate,
-                                const std::string& serial_timeout, const std::string& resolution)
+NanoAtomDriver::NanoAtomDriver(const std::string& serial_port, const int serial_baudrate,
+                                const int serial_timeout, const int resolution)
 {
-  (void)serial_port;
-  (void)serial_baudrate;
-  (void)serial_timeout;
-  (void)resolution;
   std::cout << "Configure serial" << std::endl;
+  (void)resolution;
+
+  jit_ = std::make_unique<SerialJitbus>();
+  
+  if (jit_->init(serial_port.c_str(), serial_baudrate, serial_timeout))
+  { 
+    std::cout << "Serial port opened! \n";
+  }
+
+  hardware_thread_ = std::jthread(
+    [this](std::stop_token st){
+      hardware_loop(st);
+  });
+
 }
 
-bool NanoAtomDriver::setWheelCommand(const DiffDriveCommand& command)
+void NanoAtomDriver::hardware_loop(std::stop_token st)
 {
-
-  (void)command;
-  std::cout << "Set wheel commands!" << std::endl;
-
-  return true;
+  while(!st.stop_requested())
+  {
+    if (jit_->available() > 0)
+    {
+      std::lock_guard<std::mutex> lock(jitbus_mutex_); 
+      jit_->receivePacket(motor_state_, 1);
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  }
 }
 
-bool NanoAtomDriver::getWheelState(DiffDriveState& state)
+void NanoAtomDriver::setWheelCommand(const DiffDriveCommand& command)
 {
+  motor_setpoint_[0] = static_cast<float>(command.left_wheel.velocity);
+  motor_setpoint_[1] = static_cast<float>(command.right_wheel.velocity);
 
-  (void)state;
-  std::cout << "Get wheel states!" << std::endl;
-
-  return true;
+  jit_->sendPacket(motor_setpoint_, 2);
+  
+  //std::cout << "Set wheel commands! \n";
+  //std::cout << "Left: " << motor_setpoint_[0] << "\n";
+  //std::cout << "Right: " << motor_setpoint_[1] << "\n";
 }
+
+void NanoAtomDriver::getWheelState(DiffDriveState& state)
+{
+  std::lock_guard<std::mutex> lock(jitbus_mutex_);
+
+  state.left_wheel.position = motor_state_.position[0];
+  state.left_wheel.velocity = motor_state_.velocity[0];
+  state.right_wheel.position = motor_state_.position[1];
+  state.right_wheel.velocity = motor_state_.velocity[1];
+
+  // std::cout << "Get wheel states! \n";
+  // std::cout << "Left Wheel \n";
+  // std::cout << " - Position: " << state.left_wheel.position << "\n";
+  // std::cout << " - Velocity: " << state.left_wheel.velocity << "\n";
+  // std::cout << "Right Wheel \n";
+  // std::cout << " - Position: " << state.right_wheel.position << "\n";
+  // std::cout << " - Velocity: " << state.right_wheel.velocity << "\n";
+}
+

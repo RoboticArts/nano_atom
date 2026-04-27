@@ -16,27 +16,48 @@
 // Author: Robert Vasquez Zavaleta
 
 #pragma once
+#define JITBUS_DISABLE_LOG
 
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <jitbus.h>
 
 #include "nano_atom_hardware/nano_atom_type_values.hpp"
 
-using DiffDriveState =nano_atom_type_values::DiffDriveState;
-using DiffDriveCommand =nano_atom_type_values::DiffDriveCommand;
+using DiffDriveState = nano_atom_type_values::DiffDriveState;
+using DiffDriveCommand = nano_atom_type_values::DiffDriveCommand;
 
+// TODO(robert): Implement this class as a library in nano_atom_lib repository
 class NanoAtomDriver {
 
   public:
 
-    NanoAtomDriver(const std::string& serial_port, const std::string& serial_baudrate,
-                    const std::string& serial_timeout, const std::string& resolution);
+    NanoAtomDriver(const std::string& serial_port, const int serial_baudrate,
+                    const int serial_timeout, const int resolution);
     virtual ~NanoAtomDriver() = default;
 
-    bool setWheelCommand(const DiffDriveCommand& command);
-    bool getWheelState(DiffDriveState& state);
+    void setWheelCommand(const DiffDriveCommand& command);
+    void getWheelState(DiffDriveState& state);
 
   private:
+    
+    std::unique_ptr<SerialJitbus> jit_;
+    std::jthread hardware_thread_;
 
+    void hardware_loop(std::stop_token st);
 
+    // Check
+    struct MotorState
+    { 
+      float position[4];
+      float velocity[4];
+    };
+
+    float motor_setpoint_[4]{0.0};
+
+    MotorState motor_state_;
+
+    std::mutex jitbus_mutex_;
 
 };

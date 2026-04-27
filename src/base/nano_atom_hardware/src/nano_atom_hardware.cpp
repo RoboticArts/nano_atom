@@ -44,11 +44,11 @@ CallbackReturn NanoAtomSystem::on_init(const HardwareComponentInterfaceParams& p
 
   // Serial port
   config_.serial_port = get_param("serial_port");
-  config_.serial_baudrate = get_param("serial_baudrate");
-  config_.serial_timeout = get_param("serial_timeout");
+  config_.serial_baudrate =  std::stoi(get_param("serial_baudrate"));
+  config_.serial_timeout =  std::stoi(get_param("serial_timeout"));
 
   // Others
-  config_.resolution = get_param("resolution");
+  config_.resolution =  std::stoi(get_param("resolution"));
 
   RCLCPP_INFO(logger_, "Finished On init.");
 
@@ -157,7 +157,7 @@ CallbackReturn NanoAtomSystem::on_deactivate(const rclcpp_lifecycle::State& /* p
 ReturnType NanoAtomSystem::read(const rclcpp::Time& /* time */, const rclcpp::Duration& /* period */)
 {
   
-  RCLCPP_INFO(logger_, "Read hardware interface!");
+  //RCLCPP_INFO(logger_, "Read hardware interface!");
   nano_atom_driver_->getWheelState(diff_drive_state_);
 
   return hardware_interface::return_type::OK;
@@ -166,7 +166,7 @@ ReturnType NanoAtomSystem::read(const rclcpp::Time& /* time */, const rclcpp::Du
 ReturnType NanoAtomSystem::write(const rclcpp::Time& /* time */, const rclcpp::Duration& /* period */)
 {
 
-  RCLCPP_INFO(logger_, "Write hardware interface!");
+  //RCLCPP_INFO(logger_, "Write hardware interface!");
   nano_atom_driver_->setWheelCommand(diff_drive_command_);
 
   return hardware_interface::return_type::OK;
