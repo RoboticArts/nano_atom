@@ -1,0 +1,6 @@
+[submodule "src/devices/YDLidar-SDK"]
+	path = src/devices/YDLidar-SDK
+	url = https://github.com/RoboticArts/YDLidar-SDK.git
+[submodule "src/devices/ydlidar_ros2_driver"]
+	path = src/devices/ydlidar_ros2_driver
+	url = https://github.com/RoboticArts/ydlidar_ros2_driver.git
