@@ -10,3 +10,6 @@
 [submodule "src/base/roboticarts_pad"]
 	path = modules/base/roboticarts_pad
 	url = https://github.com/RoboticArts/roboticarts_pad.git
+[submodule "modules/devices/camera_ros"]
+	path = modules/devices/camera_ros
+	url = https://github.com/RoboticArts/camera_ros.git
