@@ -1,0 +1,21 @@
+---
+/**:
+  roboticarts_pad:
+    ros__parameters:
+      pad_map:
+        square_button:   { id: 3, type: digital  } # X button
+        x_button:        { id: 2,  type: digital } # A button
+        circle_button:   { id: 1,  type: digital } # B button
+        triangle_button: { id: 0, type: digital  } # Y button
+        L1_button:       { id: 4,  type: digital }
+        R1_button:       { id: 5,  type: digital }
+        L2_trigger:      { id: 6,  type: digital }
+        R2_trigger:      { id: 7,  type: digital }
+        L3_button:       { id: 10, type: digital }
+        R3_button:       { id: 11, type: digital }
+        horizontal_axis_stick_left:  { id: 0, type: analog }
+        vertical_axis_stick_left:    { id: 1, type: analog }
+        horizontal_axis_stick_right: { id: 2, type: analog }
+        vertical_axis_stick_right:   { id: 3, type: analog }
+        horizontal_cross_pad:        { id: 4, type: analog }
+        vertical_cross_pad:          { id: 5, type: analog }
