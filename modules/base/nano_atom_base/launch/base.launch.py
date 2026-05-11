@@ -95,8 +95,38 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "run_rviz",
-            default_value="false",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_RUN_RVIZ",
+                default_value="false"
+            ),
             description="Run Rviz gui"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_file",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_RVIZ_FILE",
+                default_value="base.rviz"
+            ),
+            description="Set rviz config visualization"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "pad_model",
+            default_value="terios",
+            description="Set gamepad model"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "pad_uri",
+            default_value="/dev/input/js_robot",
+            description="Set pad physical address"
         )
     )
 
