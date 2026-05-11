@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Terminal=true
+Name=robot_desktop
+Icon=utilities-terminal
+# Exec=bash -c 'export KPATH=%k; ${KPATH/"/robot_desktop.desktop"}/robot_bringup.sh;  $SHELL'
+Exec=bash -c 'export KPATH=%k; ${KPATH/"/robot_desktop.desktop"}/robot_bringup.sh;'
+Categories=Application;
+Name[en_EN]=robot_desktop

@@ -1,12 +1,15 @@
 [submodule "src/devices/YDLidar-SDK"]
-	path = src/devices/YDLidar-SDK
+	path = modules/devices/YDLidar-SDK
 	url = https://github.com/RoboticArts/YDLidar-SDK.git
 [submodule "src/devices/ydlidar_ros2_driver"]
-	path = src/devices/ydlidar_ros2_driver
+	path = modules/devices/ydlidar_ros2_driver
 	url = https://github.com/RoboticArts/ydlidar_ros2_driver.git
 [submodule "src/base/jitbus"]
-	path = src/base/jitbus
+	path = modules/base/jitbus
 	url = https://github.com/RoboticArts/jitbus.git
 [submodule "src/base/roboticarts_pad"]
-	path = src/base/roboticarts_pad
+	path = modules/base/roboticarts_pad
 	url = https://github.com/RoboticArts/roboticarts_pad.git
+[submodule "modules/devices/camera_ros"]
+	path = modules/devices/camera_ros
+	url = https://github.com/RoboticArts/camera_ros.git
