@@ -16,7 +16,7 @@
 # Author: Robert Vasquez Zavaleta
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
@@ -109,6 +109,9 @@ def generate_launch_description():
     initial_pose_y = LaunchConfiguration("initial_pose_y")
     initial_pose_a = LaunchConfiguration("initial_pose_a") 
     run_rviz = LaunchConfiguration("run_rviz")
+    rviz_file = LaunchConfiguration("rviz_file")
+    pad_model = LaunchConfiguration("pad_model")
+    pad_uri = LaunchConfiguration("pad_uri")
 
     robot_prefix = PythonExpression(["'", robot_id, "/'"])
 
@@ -158,6 +161,21 @@ def generate_launch_description():
         }.items()
     )
 
+    teleop = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('nano_atom_teleop'), 'launch/teleop.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
+            'use_sim': use_sim,
+            'pad_model': pad_model,
+            'pad_uri': pad_uri
+        }.items()
+    )
+
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -179,9 +197,14 @@ def generate_launch_description():
     rviz = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('nano_atom_description'), 'launch/rviz.launch.py'
+                 FindPackageShare('nano_atom_base'), 'launch/rviz.launch.py'
             ])
         ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
+            'rviz_file': rviz_file,
+        }.items(),
         condition=IfCondition(run_rviz)
     )
 
@@ -189,6 +212,7 @@ def generate_launch_description():
         PushRosNamespace(LaunchConfiguration('robot_id')),
         description,
         control,
+        teleop,
         simulation,
         rviz
     ])
