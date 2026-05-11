@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Run scripts form this script path
-SCRIPT_DIR="$(realpath "$(dirname "$0")/../../src")"
+SCRIPT_DIR="$(realpath "$(dirname "$0")/../../modules")"
 echo $SCRIPT_DIR
 pushd "$SCRIPT_DIR" > /dev/null
 
