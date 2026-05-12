@@ -1,0 +1,11 @@
+---
+/**:
+  roboticarts_pad:
+    ros__parameters:
+      pad_twist:
+        linear_init:  0.1
+        linear_increment:  0.01
+        linear_max:  0.25
+        angular_init: 0.5
+        angular_increment: 0.05  
+        angular_max: 1.0

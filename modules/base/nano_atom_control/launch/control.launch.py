@@ -19,7 +19,8 @@ from launch.actions import RegisterEventHandler, GroupAction, LogInfo
 from launch_ros.actions import Node, PushRosNamespace
 from launch import LaunchDescription
 from launch.event_handlers import OnProcessExit
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 from launch.conditions import UnlessCondition
 
 def generate_launch_description():
@@ -28,6 +29,16 @@ def generate_launch_description():
     robot_prefix = LaunchConfiguration("robot_prefix")
     use_sim = LaunchConfiguration("use_sim")
     controller_path = LaunchConfiguration("controller_path")
+
+    locks_path = PathJoinSubstitution([
+        FindPackageShare("nano_atom_control"),
+        "config/twist_mux/locks.yaml"
+    ])
+
+    topics_path = PathJoinSubstitution([
+        FindPackageShare("nano_atom_control"),
+        "config/twist_mux/topics.yaml"
+    ])
 
     # Run controller_manager:
     #  - Register controllers
@@ -75,10 +86,29 @@ def generate_launch_description():
         )
     )
 
+    twist_mux = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        name='twist_mux',
+        output='screen',
+        parameters=[
+            locks_path,
+            topics_path,
+            {
+                'use_sim_time': use_sim,
+                'use_stamped': True,
+            },
+        ],
+        remappings=[
+            ('cmd_vel_out', 'robot_base_controller/cmd_vel'),
+        ]
+    )
+
     group = GroupAction([
         ros2_control,
         joint_state_broadcaster_spawner,
-        robot_controller_spawner_after_joint_state
+        robot_controller_spawner_after_joint_state,
+        twist_mux
     ])
 
     return LaunchDescription([group])

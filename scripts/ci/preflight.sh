@@ -9,7 +9,7 @@ pushd "$SCRIPT_DIR" > /dev/null
 
 required=(
   "scripts/ci"
-  "src/tests"
+  "modules/tests"
   "docker/Dockerfile"
   "docker/docker-compose.yaml"
 )

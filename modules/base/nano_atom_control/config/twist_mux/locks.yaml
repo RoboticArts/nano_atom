@@ -1,0 +1,11 @@
+---
+/**:
+  twist_mux:
+    ros__parameters:
+      locks:
+        # This lock is active if emergency stop is pressed
+        base_emergency_stop:
+          name: emergency_stop
+          topic: robot_base_control/emergency_stop
+          timeout: 0.0
+          priority: 250

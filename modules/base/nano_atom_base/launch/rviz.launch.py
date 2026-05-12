@@ -17,15 +17,20 @@
 
 from launch_ros.actions import Node
 from launch import LaunchDescription
-from launch.substitutions import PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import GroupAction
 
 def generate_launch_description():
 
+    robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
+    rviz_file = LaunchConfiguration("rviz_file")
+
     rviz_config_path = PathJoinSubstitution([
-        FindPackageShare('nano_atom_description'),
-        'config/rviz.rviz'
+        FindPackageShare('nano_atom_base'),
+        'config/rviz',
+        rviz_file
     ])
 
     rviz = Node(
