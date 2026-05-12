@@ -20,16 +20,22 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import GroupAction
+from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
+    laser_topic = LaunchConfiguration("laser_topic")
     use_sim = LaunchConfiguration("use_sim")
 
-    slam_toolbox_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_localization'),
-        'config/slam_toolbox.yaml'
-    ])
+    slam_toolbox_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_localization"),
+            'config/slam_toolbox.yaml'
+        ]),
+        allow_substs=True,
+    )
 
     slam_toolbox_mapping = Node(
         package='slam_toolbox',

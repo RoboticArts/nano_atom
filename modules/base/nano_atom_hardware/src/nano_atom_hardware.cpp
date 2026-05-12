@@ -136,7 +136,12 @@ CallbackReturn NanoAtomSystem::on_activate(const rclcpp_lifecycle::State& /* pre
 {
   
   RCLCPP_INFO(logger_, "On activate...");
-
+  
+  // TODO(robert): Create nano_atom_sdk under the nano_atom_lib repository.
+  //    Review the naming and add it as a submodule if needed.
+  //    Dependency chain: libserial -> jitbus -> nano_atom_lib -> hw_interface/script,
+  //    allowing only one active hardware owner at a time.
+  //    Expose shared devices such as IMU, LEDs and buzzer through the SDK.
   nano_atom_driver_ = std::make_unique<NanoAtomDriver>( config_.serial_port, config_.serial_baudrate,
                                                         config_.serial_timeout, config_.resolution);
 

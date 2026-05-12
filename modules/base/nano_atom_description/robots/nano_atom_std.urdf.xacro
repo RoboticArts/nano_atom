@@ -8,6 +8,7 @@
   <xacro:arg name="prefix"              default="$(arg robot_id)/" />
   <xacro:arg name="controller_sim_path" default="$(find ${nano_atom_control})/config/diff_controller.yaml" />
   <xacro:arg name="hardware_path"       default="$(find ${nano_atom_hardware})/config/hardware.yaml" />
+  <xacro:arg name="driver_uri"          default="/dev/ttyAMA_NANO_ATOM"/>
   <xacro:arg name="use_front_laser"     default="false" />
   <xacro:arg name="use_front_camera"    default="false" />
   <xacro:arg name="use_imu"             default="false" />
@@ -55,7 +56,8 @@
       prefix="$(arg prefix)"
       use_sim="$(arg use_sim)"
       controller_sim_path="$(arg controller_sim_path)"
-      hardware_path="$(arg hardware_path)"/>
+      hardware_path="$(arg hardware_path)"
+      driver_uri="$(arg driver_uri)"/>
 
 
 <!-- - - - - - - - - - - - - - - BASE DEFINITION  - - - - - - - - - - - - - -->
@@ -87,11 +89,12 @@
 	<xacro:property name="wheel_offset_y" value="0.04519" />
 	<xacro:property name="wheel_offset_z" value="0.005" />
 
-  <xacro:rubber_wheel prefix="$(arg prefix)right_" parent ="$(arg base_frame)" type="right">
+  <!-- Joint names are local to the URDF/ros2_control instance and do not require /robot namespace -->
+  <xacro:rubber_wheel prefix="right_" parent ="$(arg base_frame)" type="right">
   	<origin xyz="${wheel_offset_x} -${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:rubber_wheel>
 
-  <xacro:rubber_wheel prefix="$(arg prefix)left_" parent ="$(arg base_frame)" type="left">
+  <xacro:rubber_wheel prefix="left_" parent ="$(arg base_frame)" type="left">
   	<origin xyz="${wheel_offset_x} +${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:rubber_wheel>
 

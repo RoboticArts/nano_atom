@@ -12,9 +12,9 @@
 
       # Interfaces
       map_frame:  map
-      odom_frame: robot/odom
-      base_frame: robot/base_footprint
-      scan_topic: front_laser/scan
+      odom_frame: $(var robot_prefix)odom
+      base_frame: $(var robot_prefix)base_footprint
+      scan_topic: $(var laser_topic)
 
       # Timing
       transform_publish_period: 0.02

@@ -2,10 +2,10 @@
   ros__parameters:
 
     # Interfaces
-    global_frame_id: "map"
-    base_frame_id: "robot/base_footprint"
-    odom_frame_id: "robot/odom"
-    scan_topic: "front_laser/scan"
+    global_frame_id: map
+    base_frame_id: $(var robot_prefix)base_footprint
+    odom_frame_id: $(var robot_prefix)odom
+    scan_topic:  $(var laser_topic)
 
     # Motion model
     alpha1: 0.1          # rotational error due to rotation
@@ -47,7 +47,7 @@
     # Initial Pose
     set_initial_pose: True
     initial_pose:
-      x: -0.83834
-      y: 0.00307387
+      x: $(var initial_pose_x)
+      y: $(var initial_pose_y)
       z: 0.0
-      yaw: 0.221472
+      yaw: $(var initial_pose_a)

@@ -55,6 +55,11 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}
+)
+
 ament_export_targets(export_${PROJECT_NAME})
 ament_export_dependencies(rclcpp rclcpp_lifecycle hardware_interface pluginlib)
 

@@ -63,8 +63,8 @@
       ros__parameters:
         update_frequency: 5.0
         publish_frequency: 2.0
-        global_frame: robot/odom
-        robot_base_frame: robot/base_link
+        global_frame: $(var robot_prefix)odom
+        robot_base_frame: $(var robot_prefix)base_link
         rolling_window: True
         width: 2
         height: 2

@@ -22,42 +22,59 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.actions import GroupAction
+from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description():
     
     robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
     use_sim = LaunchConfiguration("use_sim")
 
     # Nav2 core node configurations
 
-    controller_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/controller_server.yaml'
-    ])
+    controller_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/controller_server.yaml'
+        ]),
+        allow_substs=True,
+    )
 
-    planner_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/planner_server.yaml'
-    ])
+    planner_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/planner_server.yaml'
+        ]),
+        allow_substs=True,
+    )
 
     # Nav2 auxiliary node configurations
 
-    behavior_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/behavior_server.yaml'
-    ])
+    behavior_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/behavior_server.yaml'
+        ]),
+        allow_substs=True,
+    )
 
-    smoother_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/smoother_server.yaml'
-    ])
+    smoother_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/smoother_server.yaml'
+        ]),
+        allow_substs=True,
+    )
 
     # Nav2 orchestration node configurations
 
-    bt_navigator_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/bt_navigator.yaml'
-    ])
+    bt_navigator_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/bt_navigator.yaml'
+        ]),
+        allow_substs=True,
+    )
 
     bt_navigator_pose_xml = PathJoinSubstitution([
         FindPackageShare('nano_atom_navigation'),
@@ -111,7 +128,6 @@ def generate_launch_description():
         output='screen',
         parameters=[smoother_config, {'use_sim_time': use_sim}],
     )
-
 
     # Nav2 orchestration nodes
 
