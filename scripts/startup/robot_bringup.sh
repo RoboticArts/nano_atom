@@ -5,8 +5,13 @@ export ROBOT_FOLDER=${ROBOT_WORKSPACE}/src/nano_atom
 
 SESSION_NAME="nano_atom"
 
-echo "Nano Atom auto-start!"
-
+echo '    _   _____    _   ______     ___  __________  __  ___'
+echo '   / | / /   |  / | / / __ \   /   |/_  __/ __ \/  |/  /'
+echo '  /  |/ / /| | /  |/ / / / /  / /| | / / / / / / /|_/ / '
+echo ' / /|  / ___ |/ /|  / /_/ /  / ___ |/ / / /_/ / /  / /  '
+echo '/_/ |_/_/  |_/_/ |_/\____/  /_/  |_/_/  \____/_/  /_/   '
+echo '                                                         '
+                                          
 source $ROBOT_WORKSPACE/install/setup.bash
 source $ROBOT_FOLDER/scripts/startup/robot_params.env
 
@@ -39,13 +44,8 @@ run_tmux() {
 # RESET SESSION
 # -----------------------------
 
-# Añadir pad, tmux
-# Añadir devices: laser
-# Comandos basicos en obsidian
-# Meter en docker
-
 echo "Killing previous tmux session..."
-tmux kill-session -t $SESSION_NAME 2>/dev/null # USE ROBOT TEARDOWN
+./robot_teardown.sh
 
 echo "Starting tmux session..."
 tmux new-session -d -s $SESSION_NAME -n "base"
@@ -54,16 +54,17 @@ if [[ -z $ROBOT_AUTOBOOT ]]; then
    ROBOT_AUTOBOOT=false
 fi
 
-echo "RUN SIMULATION = $ROBOT_RUN_SIMULATION"
+echo "USE SIM = $ROBOT_USE_SIM"
+
 echo "RUN LOCALIZATION = $ROBOT_RUN_LOCALIZATION"
 echo "RUN NAVIGATION = $ROBOT_RUN_NAVIGATION"
 
-if $ROBOT_RUN_SIMULATION 
+
+run_tmux "base" "ros2 launch nano_atom_base base.launch.py"
+
+if $ROBOT_RUN_DEVICES && ! $ROBOT_USE_SIM;
 then
-  run_tmux "base" "ros2 launch nano_atom_base base.launch.py"
-else
-  run_tmux "base" "ros2 launch nano_atom_base base.launch.py"
-  # Launching devices robot
+  run_tmux "devices" "ros2 launch nano_atom_devices devices.launch.py" true
 fi
 
 if $ROBOT_RUN_LOCALIZATION
