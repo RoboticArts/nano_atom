@@ -49,6 +49,7 @@ def generate_launch_description():
         'config/bridge.yaml'
     ])
 
+    # TODO(robert): Parametrize robot_id and sensors names from robot_params
     gazebo_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",

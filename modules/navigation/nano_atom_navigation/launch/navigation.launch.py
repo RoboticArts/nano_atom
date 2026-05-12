@@ -18,12 +18,13 @@
 # Author: Robert Vasquez Zavaleta
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch_ros.actions import PushRosNamespace
 from launch.actions import GroupAction
+from launch.conditions import IfCondition
 
 def generate_launch_description():
 
@@ -32,7 +33,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "robot_id",
-            default_value="robot",
+            default_value=EnvironmentVariable(
+                "ROBOT_ID",
+                default_value="robot"
+            ),
             description="Name for launch and config resources"
         )
     )
@@ -40,13 +44,30 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_sim",
-            default_value="true",
+            default_value=EnvironmentVariable(
+                "ROBOT_USE_SIM",
+                default_value="true"
+            ),
             description="Enable simulation"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "run_mission",
+            default_value=EnvironmentVariable(
+                "ROBOT_NAVIGATION_RUN_MISSION",
+                default_value="true"
+            ),
+            description="Run nav2 mission features"
         )
     )
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    run_mission = LaunchConfiguration("run_mission")
+
+    robot_prefix = PythonExpression(["'", robot_id, "/'"])
 
     nav2_task = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -56,6 +77,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
             'use_sim': use_sim,
         }.items()
     )
@@ -68,8 +90,10 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
             'use_sim': use_sim,
-        }.items()
+        }.items(),
+        condition=IfCondition(run_mission)
     )
 
     group = GroupAction([

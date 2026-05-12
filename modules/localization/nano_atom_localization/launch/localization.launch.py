@@ -16,7 +16,7 @@
 # Author: Robert Vasquez Zavaleta
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import PushRosNamespace
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -30,7 +30,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "robot_id",
-            default_value="robot",
+            default_value=EnvironmentVariable(
+                "ROBOT_ID",
+                default_value="robot"
+            ),
             description="Name for launch and config resources"
         )
     )
@@ -38,7 +41,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_sim",
-            default_value="true",
+            default_value=EnvironmentVariable(
+                "ROBOT_USE_SIM",
+                default_value="true"
+            ),
             description="Enable simulation"
         )
     )
@@ -46,14 +52,79 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "run_mapping",
-            default_value="false",
+            default_value=EnvironmentVariable(
+                "ROBOT_LOCALIZATION_RUN_MAPPING",
+                default_value="false"
+            ),
             description="Enable mapping"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "map_name",
+            default_value=EnvironmentVariable(
+                "ROBOT_LOCALIZATION_MAP_NAME",
+                default_value="false"
+            ),
+            description="Map name for localization"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "laser_topic",
+            default_value=EnvironmentVariable(
+                "ROBOT_LOCALIZATION_LASER_TOPIC",
+                default_value="scan"
+            ),
+            description="Laser topic for localization and mapping"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "initial_pose_x",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_X",
+                default_value="0.0"
+            ),
+            description="Set the robot pose on the X axis"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "initial_pose_y",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_Y",
+                default_value="0.0"
+            ),
+            description="Set the robot pose on the Y axis"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "initial_pose_a",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_A",
+                default_value="0.0"
+            ),
+            description="Set the robot orientation in yaw"
         )
     )
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
     run_mapping = LaunchConfiguration("run_mapping")
+    map_name = LaunchConfiguration("map_name")
+    laser_topic = LaunchConfiguration("laser_topic")
+    initial_pose_x = LaunchConfiguration("initial_pose_x")
+    initial_pose_y = LaunchConfiguration("initial_pose_y")
+    initial_pose_a = LaunchConfiguration("initial_pose_a")
+    
+    robot_prefix = PythonExpression(["'", robot_id, "/'"])
 
     localization_2d = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -63,7 +134,13 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
             'use_sim': use_sim,
+            'map_name': map_name,
+            'laser_topic': laser_topic,
+            'initial_pose_x': initial_pose_x,
+            'initial_pose_y': initial_pose_y,
+            'initial_pose_a': initial_pose_a
         }.items(),
         condition=UnlessCondition(run_mapping)
     )
@@ -76,6 +153,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
+            'robot_prefix': robot_prefix,
+            'laser_topic': laser_topic,
             'use_sim': use_sim,
         }.items(),
         condition=IfCondition(run_mapping)

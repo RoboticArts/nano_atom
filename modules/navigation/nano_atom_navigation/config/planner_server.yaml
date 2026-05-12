@@ -16,7 +16,7 @@
         update_frequency: 1.0
         publish_frequency: 1.0
         global_frame: map
-        robot_base_frame: robot/base_link
+        robot_base_frame: $(var robot_prefix)base_link
         robot_radius: 0.075 # Footprint
         resolution: 0.02
         track_unknown_space: true

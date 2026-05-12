@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
   <!--Plugin used to connect ROS2 with hardware or simulation -->
-  <xacro:macro name="diff_ros2_control" params="robot_id prefix use_sim controller_sim_path hardware_path">
+  <xacro:macro name="diff_ros2_control" params="robot_id prefix use_sim controller_sim_path hardware_path driver_uri">
 
     <xacro:macro name="ros2_joint" params="interface jmin jmax name">
       <joint name="${name}">
@@ -27,14 +27,15 @@
           <plugin>nano_atom_hardware/NanoAtomSystem</plugin>
           <param name="left_wheel_joint_name">${hw_param['left_wheel_joint']}</param>
           <param name="right_wheel_joint_name">${hw_param['right_wheel_joint']}</param>
-          <param name="serial_port">${hw_param['serial_port']}</param>
+          <param name="serial_port">${driver_uri}</param>
           <param name="serial_baudrate">${hw_param['serial_baudrate']}</param>
           <param name="serial_timeout">${hw_param['serial_timeout']}</param>
           <param name="resolution">${hw_param['resolution']}</param>
         </hardware>
 
-        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="${prefix}left_wheel_joint"/>
-        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="${prefix}right_wheel_joint"/>
+        <!-- Joint names are local to the URDF/ros2_control instance and do not require /robot namespace -->
+        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="left_wheel_joint"/>
+        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="right_wheel_joint"/>
 
       </ros2_control>
 
@@ -62,8 +63,9 @@
           <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
 
-        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="${prefix}left_wheel_joint"/>
-        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="${prefix}right_wheel_joint"/>
+        <!-- Joint names are local to the URDF/ros2_control instance and do not require /robot namespace -->
+        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="left_wheel_joint"/>
+        <xacro:ros2_joint interface="velocity" jmin="-5" jmax="5" name="right_wheel_joint"/>
 
       </ros2_control>
 

@@ -30,6 +30,7 @@ def generate_launch_description():
     robot_xacro = LaunchConfiguration("robot_xacro")
     controller_sim_path = LaunchConfiguration("controller_sim_path")
     hardware_path = LaunchConfiguration("hardware_path")
+    driver_uri = LaunchConfiguration("driver_uri")
 
     robot_xacro_path = PathJoinSubstitution([
         FindPackageShare('nano_atom_description'),
@@ -53,11 +54,14 @@ def generate_launch_description():
             ' ',
             'hardware_path:=', hardware_path,
             ' ',
+            'driver_uri:=', driver_uri,
+            ' ',
+            # TODO(robert): Use 'laser_model' from robot_params
             'use_front_laser:=true',
             ' ',
             'use_imu:=true'
             ' ',
-            'use_front_camera:=false',
+            'use_front_camera:=true',
         ]
     )
 

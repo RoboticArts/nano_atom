@@ -23,21 +23,29 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.actions import GroupAction
+from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
     use_sim = LaunchConfiguration("use_sim")
 
-    waypoint_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/waypoint_follower.yaml'
-    ])
+    waypoint_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/waypoint_follower.yaml'
+        ]),
+        allow_substs=True,
+    )
 
-    route_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
-        'config/route_server.yaml'
-    ])
+    route_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare("nano_atom_navigation"),
+            'config/route_server.yaml'
+        ]),
+        allow_substs=True,
+    )
 
     route_graph_filepath = PathJoinSubstitution([
         FindPackageShare('nano_atom_navigation'),

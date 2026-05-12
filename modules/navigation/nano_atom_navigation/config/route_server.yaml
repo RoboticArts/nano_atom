@@ -10,7 +10,7 @@
       smooth_corners: true
       smoothing_radius: 0.2
       route_frame: map 
-      base_frame: robot/base_link
+      base_frame: $(var robot_prefix)base_link
       operations: ["AdjustSpeedLimit", "ReroutingService", "CollisionMonitor"]
       ReroutingService:
         plugin: "nav2_route::ReroutingService"

@@ -1,6 +1,6 @@
-left_wheel_joint: robot/left_wheel_joint
-right_wheel_joint: robot/right_wheel_joint
-serial_port: /dev/ttyUSB_NANO_ATOM
+left_wheel_joint: left_wheel_joint
+right_wheel_joint: right_wheel_joint
+# Note: serial_port is provided at launch time through driver_uri/ROBOT_BASE_DRIVER_URI
 serial_baudrate: "115200"
 serial_timeout: "1000"
 resolution: "585"

@@ -31,7 +31,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "robot_id",
-            default_value="robot",
+            default_value=EnvironmentVariable(
+                "ROBOT_ID",
+                default_value="robot"
+            ),
             description="Name for launch and config resources"
         )
     )
@@ -39,7 +42,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "robot_xacro",
-            default_value="nano_atom_std.urdf.xacro",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_XACRO",
+                default_value="nano_atom_std.urdf.xacro"
+            ),
             description="URDF of the robot"
         )
     )
@@ -47,7 +53,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_sim",
-            default_value="true",
+            default_value=EnvironmentVariable(
+                "ROBOT_USE_SIM",
+                default_value="true"
+            ),
             description="Enable simulation"
         )
     )
@@ -55,7 +64,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "headless_sim",
-            default_value="false",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_SIM_HEADLESS",
+                default_value="false"
+            ),
             description="Run simulation without graphical interface"
         )
     )
@@ -63,7 +75,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "world_sim",
-            default_value="nano_atom_office.world",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_SIM_WORLD",
+                default_value="nano_atom_office.world"
+            ),
             description="World for simulation"
         )
     )
@@ -71,7 +86,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "initial_pose_x",
-            default_value="0.0",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_X",
+                default_value="0.0"
+            ),
             description="Set the robot pose on the X axis"
         )
     )
@@ -79,7 +97,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "initial_pose_y",
-            default_value="0.0",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_Y",
+                default_value="0.0"
+            ),
             description="Set the robot pose on the Y axis"
         )
     )
@@ -87,7 +108,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "initial_pose_a",
-            default_value="0.0",
+            default_value=EnvironmentVariable(
+                "ROBOT_INITIAL_POSE_A",
+                default_value="0.0"
+            ),
             description="Set the robot orientation in yaw"
         )
     )
@@ -111,6 +135,14 @@ def generate_launch_description():
                 default_value="base.rviz"
             ),
             description="Set rviz config visualization"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "driver_uri",
+            default_value="/dev/ttyAMA_NANO_ATOM",
+            description="Nano atom driver phisical address"
         )
     )
 
@@ -140,6 +172,7 @@ def generate_launch_description():
     initial_pose_a = LaunchConfiguration("initial_pose_a") 
     run_rviz = LaunchConfiguration("run_rviz")
     rviz_file = LaunchConfiguration("rviz_file")
+    driver_uri = LaunchConfiguration("driver_uri")
     pad_model = LaunchConfiguration("pad_model")
     pad_uri = LaunchConfiguration("pad_uri")
 
@@ -173,7 +206,8 @@ def generate_launch_description():
             'use_sim': use_sim,
             'robot_xacro': robot_xacro,
             'controller_sim_path': controller_path, # Used for simulation
-            'hardware_path': hardware_path
+            'hardware_path': hardware_path,
+            'driver_uri': driver_uri
         }.items()
     )
 

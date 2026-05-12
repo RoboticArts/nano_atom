@@ -1,3 +1,4 @@
+---
 /**:
   controller_manager:
     ros__parameters:
@@ -17,8 +18,9 @@
   robot_base_controller:
     ros__parameters:
 
-      left_wheel_names: ["robot/left_wheel_joint"]
-      right_wheel_names: ["robot/right_wheel_joint"]
+      # Joint names are local to the URDF/controller instance and are not affected by ROS namespaces
+      left_wheel_names: ["left_wheel_joint"]
+      right_wheel_names: ["right_wheel_joint"]
 
       wheel_separation: 0.0898
       wheel_radius: 0.021
@@ -28,6 +30,7 @@
       right_wheel_radius_multiplier: 1.0
 
       publish_rate: 50.0
+      # TF prefixes are handled by controller_manager or gz_ros2_control namespace
       odom_frame_id: odom
       base_frame_id: base_footprint
       pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
