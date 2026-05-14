@@ -21,6 +21,8 @@ from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description():
     
+    robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
     laser_id = LaunchConfiguration("laser_id")
     laser_uri = LaunchConfiguration("laser_uri")
     laser_max_angle = LaunchConfiguration("laser_max_angle")
@@ -49,7 +51,8 @@ def generate_launch_description():
         output="screen",
         parameters=[lidar_params],
         remappings=[
-            ('scan', ["/", laser_id, "/scan"]),
+            ('scan', [laser_id, "/scan"]),
+            ('point_cloud', [laser_id, "/point_cloud"]),
         ]
     )
 
