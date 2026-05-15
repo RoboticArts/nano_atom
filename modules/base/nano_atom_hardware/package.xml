@@ -13,6 +13,7 @@
   <depend>rclcpp_lifecycle</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
+  <depend>libserial-dev</depend>
   <depend>jitbus</depend>
 
   <exec_depend>controller_manager</exec_depend>
