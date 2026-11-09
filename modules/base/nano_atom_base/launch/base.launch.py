@@ -141,7 +141,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "driver_uri",
-            default_value="/dev/ttyAMA_NANO_ATOM",
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_DRIVER_URI",
+                default_value="/dev/ttyS_NANO_ATOM"
+            ),
             description="Nano atom driver phisical address"
         )
     )
@@ -149,16 +152,22 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "pad_model",
-            default_value="terios",
-            description="Set gamepad model"
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_PAD_MODEL",
+                default_value="terios"
+            ),
+            description="Gamepad model name"
         )
     )
 
     declared_arguments.append(
         DeclareLaunchArgument(
             "pad_uri",
-            default_value="/dev/input/js_robot",
-            description="Set pad physical address"
+            default_value=EnvironmentVariable(
+                "ROBOT_BASE_PAD_URI",
+                default_value="/dev/input/js_robot"
+            ),
+            description="Pad physical address"
         )
     )
 

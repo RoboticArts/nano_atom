@@ -60,18 +60,20 @@
 
 <!-- - - - - - - - - - - - - - WHEEL DEFINITION - - - - - - - - - - - - - -->
 
-  <xacro:macro name ="rubber_wheel" params = "prefix parent *origin type">
+  <xacro:macro name ="rubber_wheel" params = "link_prefix joint_prefix parent *origin type">
 
+    
     <!-- wheel & base joint-->
-    <joint name="${prefix}wheel_joint" type="continuous">
+    <!-- Joint names are local to the URDF/ros2_control instance and do not require /robot namespace -->
+    <joint name="${joint_prefix}wheel_joint" type="continuous">
       <xacro:insert_block name ="origin" />
       <parent link="${parent}" />
-      <child link="${prefix}wheel_link" />
+      <child link="${link_prefix}wheel_link" />
       <axis xyz="0 1 0" />
     </joint>
 
     <!-- wheel link -->
-    <link name="${prefix}wheel_link">
+    <link name="${link_prefix}wheel_link">
 
       <inertial>
         <xacro:origin_selector wheel = "${type}" />

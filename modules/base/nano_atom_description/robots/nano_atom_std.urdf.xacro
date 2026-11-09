@@ -89,12 +89,11 @@
 	<xacro:property name="wheel_offset_y" value="0.04519" />
 	<xacro:property name="wheel_offset_z" value="0.005" />
 
-  <!-- Joint names are local to the URDF/ros2_control instance and do not require /robot namespace -->
-  <xacro:rubber_wheel prefix="right_" parent ="$(arg base_frame)" type="right">
+  <xacro:rubber_wheel link_prefix="$(arg prefix)right_" joint_prefix="right_" parent ="$(arg base_frame)" type="right">
   	<origin xyz="${wheel_offset_x} -${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:rubber_wheel>
 
-  <xacro:rubber_wheel prefix="left_" parent ="$(arg base_frame)" type="left">
+  <xacro:rubber_wheel link_prefix="$(arg prefix)left_" joint_prefix="left_" parent ="$(arg base_frame)" type="left">
   	<origin xyz="${wheel_offset_x} +${wheel_offset_y} +${wheel_offset_z}" rpy="0 0 0"/>
   </xacro:rubber_wheel>
 

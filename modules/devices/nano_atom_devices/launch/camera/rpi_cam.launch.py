@@ -15,10 +15,12 @@
 from launch.actions import GroupAction
 from launch_ros.actions import Node
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 def generate_launch_description():
     
+    robot_id = LaunchConfiguration("robot_id")
+    robot_prefix = LaunchConfiguration("robot_prefix")
     camera_id = LaunchConfiguration("camera_id")
     camera_uri = LaunchConfiguration("camera_uri")
 
@@ -29,6 +31,7 @@ def generate_launch_description():
         output="screen",
         parameters=[{
             "camera": camera_uri,
+            "frame_id": PythonExpression(["'", robot_prefix, "' + '", camera_id, "_rgb_optical_link'"]),
             "width": 640,
             "height": 480,
             "format": "",

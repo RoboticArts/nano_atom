@@ -2,7 +2,7 @@
 /**:
   ros__parameters:
     port: "$(var laser_uri)"
-    frame_id: "$(var laser_id)_link"
+    frame_id: "$(var robot_prefix)$(var laser_id)_link"
     ignore_array: ""
     baudrate: 115200
     lidar_type: 1
