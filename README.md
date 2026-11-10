@@ -102,7 +102,7 @@ mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
 Clone the repository:
 
 ```
-git clone --branch jazzy-devel https://github.com/RoboticArts/nano_atom.git
+git clone --branch jazzy-devel --recurse-submodules https://github.com/RoboticArts/nano_atom.git
 ```
 
 ### Option 1. Build from ROS2
@@ -111,7 +111,7 @@ Install dependencies:
 
 ```
 cd ~/ros2_ws
-rosdep update && rosdep install --from-paths src --ignore-src -y -r --rosdistro jazzy
+sudo apt-get update && rosdep update && rosdep install --from-paths src --ignore-src -y -r --rosdistro jazzy
 ```
 
 Build the repository:
