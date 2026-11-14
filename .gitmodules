@@ -13,3 +13,7 @@
 [submodule "modules/devices/camera_ros"]
 	path = modules/devices/camera_ros
 	url = https://github.com/RoboticArts/camera_ros.git
+[submodule "modules/common/rosmon2"]
+	path = modules/common/rosmon2
+	url = https://github.com/RoboticArts/rosmon2.git
+	branch = jazzy-devel

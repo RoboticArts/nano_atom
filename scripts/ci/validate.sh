@@ -14,6 +14,7 @@ fi
 
 EXCLUDED_PACKAGES=(
   "camera_ros"
+  "rosmon2"
 )
 
 FIND_ARGS=(

@@ -60,21 +60,21 @@ echo "RUN LOCALIZATION = $ROBOT_RUN_LOCALIZATION"
 echo "RUN NAVIGATION = $ROBOT_RUN_NAVIGATION"
 
 
-run_tmux "base" "ros2 launch nano_atom_base base.launch.py"
+run_tmux "base" "mon2 launch nano_atom_base base.launch.py"
 
 if $ROBOT_RUN_DEVICES && ! $ROBOT_USE_SIM;
 then
-  run_tmux "devices" "ros2 launch nano_atom_devices devices.launch.py" true
+  run_tmux "devices" "mon2 launch nano_atom_devices devices.launch.py" true
 fi
 
 if $ROBOT_RUN_LOCALIZATION
 then
-  run_tmux "localization" "ros2 launch nano_atom_localization localization.launch.py" true
+  run_tmux "localization" "mon2 launch nano_atom_localization localization.launch.py" true
 fi
 
 if $ROBOT_RUN_NAVIGATION 
 then
-  run_tmux "navigation" "ros2 launch nano_atom_navigation navigation.launch.py" true
+  run_tmux "navigation" "mon2 launch nano_atom_navigation navigation.launch.py" true
 fi
 
 
