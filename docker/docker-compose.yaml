@@ -16,4 +16,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri 
     command: >
-        ros2 launch nano_atom_base base.launch.py run_rviz:=true
+        bash src/nano_atom/scripts/startup/robot_bringup.sh
