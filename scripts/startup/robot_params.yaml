@@ -1,0 +1,54 @@
+# Commons parameters
+robot:
+  id: robot
+  use_sim: true
+
+  run:
+    devices: true
+    localization: true
+    navigation: true
+
+  initial_pose:
+    x: 0.0
+    y: 0.0
+    a: 0.0
+
+  # Module parameters
+  base:
+    xacro: nano_atom_std.urdf.xacro
+    run_rviz: true
+    rviz:
+      #run: true
+      file: robot.rviz
+    pad:
+      model: terios
+      uri: /dev/input/js_robot
+    driver:
+      uri: /dev/ttyS_NANO_ATOM
+    sim:
+      headless: false
+      world: nano_atom_office.world
+
+  devices:
+    laser:
+      model: ydlidar_x2
+      id: front_laser
+      uri: /dev/ttyUSB_LASER
+      max_angle: 3.14
+      min_angle: -3.14
+    camera:
+      model: rpi_cam
+      id: front_camera
+      uri: "0"
+
+  localization:
+    map_name: demo_map
+    laser_topic: "${robot.devices.laser.id}/scan"
+    run_mapping: true
+    # mapping:
+    #   run: false
+
+  navigation:
+    run_mission: true
+    # mission: 
+    #   run: true

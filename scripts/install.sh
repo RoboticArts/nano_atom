@@ -1,6 +1,7 @@
 # Install dependencies
 
 sudo apt-get install -y \
+  yq \
   tmux \
   joystick
 
